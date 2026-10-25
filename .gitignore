@@ -1,5 +1,5 @@
 .venv\
-models\
+models/
 .ipynb_checkpoints
 gsm8k_dataset
 ifeval
