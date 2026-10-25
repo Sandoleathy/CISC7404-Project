@@ -1,4 +1,10 @@
 # Install packages
+## Using mirror source
+Cuda reference is very larg. Using default source to download takes very long time.
+
+put file `uv.toml` inside uv config folder to use mirror source.
+
+## Install
 Install requirements
 ```
 uv sync
