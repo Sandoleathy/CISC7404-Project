@@ -48,7 +48,8 @@ Linux
 ```
 source .venv\bin\activate
 ```
-
+# For windows
+You must use WSL to start this project to use vLLM
 
 ## PyTorch install
 Because of the difference between CPU and GPU platform. You need to manully install PyTorch depend on what platform you are using.
@@ -76,4 +77,13 @@ uv pip install torch torchvision --index-url https://download.pytorch.org/whl/cu
 
 Add `UV_HTTP_TIMEOUT=300` if it takes too much time to download.
 
-# freeze requirements
+
+## Start jupyter notebook
+```
+jupyter notebook
+```
+or 
+```
+jupyter server --ServerApp.allow_remote_access True
+```
+if you want to remotely access the jupyter notebook
