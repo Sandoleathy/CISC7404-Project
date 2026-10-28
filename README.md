@@ -20,6 +20,21 @@ Lock packages
 uv lock
 ```
 
+### install packages for specific machine
+The package is managed seperately in difference computers
+``` 
+uv pip sync configs/cpu/requirements.txt            # for cpu machine
+uv pip sync configs/windows-gpu/requirements.txt    # for windows gpu
+uv pip sync configs/linux-gpu/requirements.txt      # for linux gpu
+```
+
+freeze requirements
+```
+uv pip freeze > configs/cpu/requirements.txt 
+uv pip freeze > configs/windows-gpu/requirements.txt
+uv pip freeze > configs/linux-gpu/requirements.txt
+```
+
 # Enter virtual environment
 It is not necessary to enter virtual environment when using uv. But sometimes we still need to enter a virtual environment to install some package or use some local package.
 
@@ -60,3 +75,5 @@ uv pip install torch torchvision --index-url https://download.pytorch.org/whl/cu
 ```
 
 Add `UV_HTTP_TIMEOUT=300` if it takes too much time to download.
+
+# freeze requirements
