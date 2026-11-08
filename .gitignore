@@ -1,4 +1,6 @@
-.venv\
+.venv/
+work/
+__pycache__/
 models/
 .ipynb_checkpoints
 gsm8k_dataset

@@ -191,6 +191,30 @@ outputs = vllm_model.chat(
 - ❌ 提交 `models/`、`gsm8k_dataset/`、`ifeval/`、`.venv/`（已在 `.gitignore`）
 - ❌ 在没有 GPU 的机器上执行需要 CUDA 的 cell 后把报错当成代码 bug 修
 
+### 5.5 Task A v3：寄存器任务（代码就绪，待 GPU 校准）
+
+- 入口：`Experiments/task_a/experiment_task_a.ipynb`。按用户确认，本次先交付可在 Colab/T4
+  运行的 notebook，真实校准稍后运行；**尚未选定正式任务，不能声称 p1 或深度曲线达标**。
+- 首选双寄存器条件更新；每步比较旧值，再同时一加一减，等号走 otherwise。两个增量不相等，
+  避免总和守恒捷径；寄存器在编码基数范围内，禁止 mod / 截断 / 聚合。
+  双寄存器默认 `ans=A*100+B`，三寄存器候选保留所有状态的编码。
+- `W` 是提案约定的复合更新次数，另记 `W_atomic=3W`（一次比较、两次加减）。
+  并行独立链长度为 `[1,2,...,2]`，`W=2w-1`，实际 `d=1`（w=1）或 `2`，
+  `matched_serial_d=2w-1`。仅匹配串行奇数深度 1..19；w=1 是退化对照。
+  并行输出每条链的答案，需人工评估读出长度混杂，不能把配平当作无混杂因果对照。
+- 顺序：100 条 DA 单步探针 → 独立的 5 深度 × 20 题 × DA/CoT → **人工审核** → 正式生成。
+  默认关闭 GPU 与正式生成；复用第 3 节的 A 档和既有 T4 B 档加载/采样设置。
+  A 档结果仅自测，不用于 B 档定题。模拟结果不得写入或冒充真实校准。
+- `task.md` 的 DA(1) 0.80–0.95 与探针 0.955–0.986 不相交，分别报告。
+  `p1**20` 仅为启发式预测；Cochran–Armitage 检验对象明确为 CoT 准确率随深度下降，
+  gap 端点差另用配对 bootstrap 报区间。不能将该检验说成 gap 趋势的检验。
+- 真实结果写 `Experiments/task_a/calib_v3_task.jsonl`（断点续跑，保留原文、模型版本、采样参数、
+  answer_ok、解析和截断诊断）；题目和摘要写 `work/task_a/`。
+  审核后才写 `Experiments/data_generation/synthesis_register_dataset.jsonl` 与 `.manifest.json`，
+  默认 2000 串行 + 1000 并行；正式题不与校准题重叠。
+- 查表字段为各链的 `START / OPS / FIRST / LAST / MAXDELTA`；`NEG` 不适用，不能机械迁移。
+  此处仅提供字段，不做 Task B 的约束筛选。实测后须回填本节、`record.md` 和 `task.md`。
+
 ## 6. 待办与未定项
 
 **一周双轨（2026-11-07 起，详见 `record.md`「一周行动计划」）：**
