@@ -696,3 +696,33 @@ CoT(20)∈[0.40,0.75] 为硬门槛；其余指标未达目标时，在审查 not
 验证通过：未改变已加载包时继续、实际升级时阻止执行、同一内核重跑仍受保护、新内核恢复、
 无旧标记时识别内存/磁盘版本不一致、CUDA 版本后缀不误报，以及 pip 失败不被冒充为安装成功。
 完整 notebook 的 offline 模式也执行通过；安装调用均为 mock，未在本环境进行 GPU 推理。
+
+## Colab 模型版本记录修复（2026-11-09）
+
+复核提交 `05d2ec7`（“Colab 运行失败”）：源码未改。T4 已识别；依赖检查通过，记录了
+vLLM `0.33.0`、datasets `4.8.5`、nbformat `5.11.1`。Qwen3-4B-Instruct-2507 的 LLM
+构造已返回，之后读取 `hf_config._commit_hash` 得到 None，触发“无法解析模型 commit”异常。
+日志没有显示显存不足或推理错误；此次依旧未执行探针，仓库没有真实 JSONL。
+
+**问题 → 原因 → 解决方法：** 模型加载成功后仍被版本检查阻止 → 使用了不保证存在/保留的
+transformers 私有 `_commit_hash` 字段，并在占用 GPU 后才校验来源 → 在创建 LLM 前使用
+Hugging Face 公开接口 `model_info().sha` 解析 main/tag/分支，把完整 commit 同时传给模型
+`revision` 与 `tokenizer_revision`。用户可保留 `MODEL_REVISION=None`；已知完整 commit
+无需额外查询即可固定。解析失败在创建引擎前报错，不再因为元数据检查留下已加载模型。
+
+本地 HF snapshot 从缓存目录识别 commit；普通本地权重目录必须显式提供版本标签，记录为
+`local_revision_label`，不冒充已验证的远端 commit。加载前记录依赖版本（含 huggingface_hub）
+与模型来源。重新执行加载 cell 时比较原始请求的 revision 与模型来源，而不是将自动解析出的
+commit 与配置中的 None 比较，防止同一个模型被误判为配置变动。模型来源或用户 revision
+变更仍要求重新加载。
+
+上一版失败时已经创建模型，当前 Colab 会话应先重新启动以释放旧引擎显存，然后运行修复版；
+不应删除运行时，依赖和模型下载缓存可复用。模型硬件参数、采样参数及题目生成保持不变，
+下一步仍为 100 条真实 DA 探针，不能在没有结果的情况下生成正式数据集。
+
+验证：核对 vLLM `v0.33.0` 发布源码的 LLM 构造签名，确认支持 `revision` 和
+`tokenizer_revision`，并确认 chat 支持每条作业独立 SamplingParams。完整 offline notebook
+执行通过；新增模拟回归覆盖 main/tag/完整 commit、本地 snapshot/版本标签、引擎完全没有
+私有配置字段、加载 cell 重跑、来源变更检测、元数据/网络失败发生于引擎创建前，以及 A/B
+加载参数不变。加载返回值继续跑通 100 条 mock 作业的批处理、判分和断点续跑，且模拟记录被
+正式筛选拒绝。测试输出仅在临时目录，未冒充 GPU 实测，仍未得到真实 p1。

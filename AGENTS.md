@@ -156,6 +156,16 @@ outputs = vllm_model.chat(
 
 ---
 
+### 3.3 Task A 的模型版本固定
+
+Task A notebook 在创建 LLM 前通过 Hugging Face 公开接口 `HfApi.model_info().sha` 解析
+远端模型的 main/tag/分支，将同一完整 commit 传入 `revision` 和 `tokenizer_revision`，
+并记录用户请求的 revision 与解析后的 commit。不要依赖 `hf_config._commit_hash` 等私有字段；
+vLLM 0.33.0 的本次 Colab 运行中该字段为空，但模型本身已经加载成功。
+`MODEL_REVISION=None` 可自动解析，无需用户手找 commit；本地 snapshot 识别目录 commit，
+普通本地目录须显式提供版本标签，并与已验证的远端 commit 区分记录。
+显存、dtype、上下文长度和统一采样参数保持原值。
+
 ## 4. DA / CoT：只由 system prompt 决定
 
 **最终实验没有 thinking 开关。** 档位 B 本身就不是 thinking 模型，条件只有两个，全部靠提示词区分。
