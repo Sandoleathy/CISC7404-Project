@@ -166,6 +166,20 @@ vLLM 0.33.0 的本次 Colab 运行中该字段为空，但模型本身已经加�
 普通本地目录须显式提供版本标签，并与已验证的远端 commit 区分记录。
 显存、dtype、上下文长度和统一采样参数保持原值。
 
+### 3.4 Task A 当前 Colab/T4 兼容配置（用户实测，2026-11-09）
+
+提交 `c2cc018` 中用户改为以下配置后完成了 200 条真实探针，后续诊断继续沿用：
+
+- B 档：`dtype="half"`、`gpu_memory_utilization=0.80`、`max_model_len=8192`、
+  `max_num_seqs=1`、`enforce_eager=True`，仍要求至少 14 GiB 可见显存。
+- import vllm 前设置 `VLLM_USE_FLASHINFER_SAMPLER=0`、
+  `VLLM_ENABLE_V1_MULTIPROCESSING=0`、`VLLM_LOGGING_LEVEL=DEBUG`。
+- 日志选择 `TRITON_ATTN`；不要因为日志提示 T4 不支持 FA2 就误判整个加载失败，实际有后端回退。
+- 这是 T4 上针对 4B 的实际配置，不是将 1.7B 的 8GB 模板直接套用。采样参数未改。
+  已验证“能完成推理”，但准确率异常偏低，尚未验证数值/输入链路可靠性。
+- 多进程开关可能影响全局随机状态；题目和统计使用局部 `random.Random`，本轮 200 题已重建一致。
+  不把一次同时修改多个选项后的成功归因于其中某个选项。
+
 ## 4. DA / CoT：只由 system prompt 决定
 
 **最终实验没有 thinking 开关。** 档位 B 本身就不是 thinking 模型，条件只有两个，全部靠提示词区分。
@@ -193,7 +207,7 @@ vLLM 0.33.0 的本次 Colab 运行中该字段为空，但模型本身已经加�
 - ❌ 在 Windows 原生环境跑 vLLM（必须 WSL）
 - ❌ 改动第 3 节的加载 / 采样参数而不更新本文件与 `record.md`
 - ❌ 把档位 A 的 `gpu_memory_utilization=0.80 / max_model_len=8192` 直接套到 4B 上
-  （档位 B 的 `0.90 / 8192 / 32` 是 T4 专属值）
+  （档位 B 的当前 T4 实测配置与适用显存见第 3.4 节）
 - ❌ 在 T4 上忘了 `dtype="half"`（Turing 不支持 bf16）
 - ❌ 对 `Qwen3-4B-Instruct-2507` 传 `chat_template_kwargs={"enable_thinking": ...}`
 - ❌ 用后处理硬截断制造 DA / CoT 的「预算公平」
@@ -201,10 +215,11 @@ vLLM 0.33.0 的本次 Colab 运行中该字段为空，但模型本身已经加�
 - ❌ 提交 `models/`、`gsm8k_dataset/`、`ifeval/`、`.venv/`（已在 `.gitignore`）
 - ❌ 在没有 GPU 的机器上执行需要 CUDA 的 cell 后把报错当成代码 bug 修
 
-### 5.5 Task A v3：寄存器任务（代码就绪，待 GPU 校准）
+### 5.5 Task A v3：寄存器任务（首轮探针已回收，待诊断）
 
-- 入口：`Experiments/task_a/experiment_task_a.ipynb`。按用户确认，本次先交付可在 Colab/T4
-  运行的 notebook，真实校准稍后运行；**尚未选定正式任务，不能声称 p1 或深度曲线达标**。
+- 入口：`Experiments/task_a/experiment_task_a.ipynb`。已回收 200 条真实单步 DA 探针，
+  `register2_small=0/100`，`register2_easy=1/100`。两配置不进入斜率验证，
+  **尚未选定正式任务，不能声称 p1 或深度曲线达标**。
 - 首选双寄存器条件更新；每步比较旧值，再同时一加一减，等号走 otherwise。两个增量不相等，
   避免总和守恒捷径；寄存器在编码基数范围内，禁止 mod / 截断 / 聚合。
   双寄存器默认 `ans=A*100+B`，三寄存器候选保留所有状态的编码。
@@ -213,7 +228,10 @@ vLLM 0.33.0 的本次 Colab 运行中该字段为空，但模型本身已经加�
   `matched_serial_d=2w-1`。仅匹配串行奇数深度 1..19；w=1 是退化对照。
   并行输出每条链的答案，需人工评估读出长度混杂，不能把配平当作无混杂因果对照。
 - 顺序：100 条 DA 单步探针 → 独立的 5 深度 × 20 题 × DA/CoT → **人工审核** → 正式生成。
-  当前默认 `RUN_STAGE="probe"`，在 Colab/T4 跑真实探针；本地 CPU 验证须明确改成 `offline`。
+  当前默认 `RUN_STAGE="diagnostic"`：16 个控题 × DA/CoT × 提交批量 1/16，共 64 条。
+  区分抄写/读数/加减/比较/编码/条件更新，并核对实际输入 token；不把诊断小样本当正式 p1。
+  引擎 max_num_seqs=1，提交批量 16 不代表同时计算 16 个序列。
+  本地 CPU 验证须明确改成 `offline`。诊断后再调整任务并重跑 100 条 probe。
   `slope` 阶段要求已有真实探针 JSONL；正式生成仍默认关闭。
   复用第 3 节的 A 档和既有 T4 B 档加载/采样设置。
   A 档结果仅自测，不用于 B 档定题。模拟结果不得写入或冒充真实校准。
@@ -228,8 +246,12 @@ vLLM 0.33.0 的本次 Colab 运行中该字段为空，但模型本身已经加�
   默认 2000 串行 + 1000 并行；正式题不与校准题重叠。
 - 查表字段为各链的 `START / OPS / FIRST / LAST / MAXDELTA`；`NEG` 不适用，不能机械迁移。
   此处仅提供字段，不做 Task B 的约束筛选。实测后须回填本节、`record.md` 和 `task.md`。
-- 已审查用户的 Colab 提交 `87911b7`：11 个代码 cell 完成，源码未改，GPU/真实探针/斜率
-  全部跳过，仅离线自测通过；没有 p1 或真实模型原文，不能据此调整难度或启动正式生成。
+- 已复核 `c2cc018` 及上传结果包：SHA256、200 个唯一 id、题目重建、独立 gold 和判分一致。
+  原始文件 `calib_v3_task.jsonl` 保持字节不变；`task_a_probe_review.json` 汇总两组，
+  上传的 `task_a_probe_summary.json` 只含最后一次 easy 组，不能忽略原文里的 small 组。
+  两组均无截断；small 解析失败 7/100，easy 为 0/100。easy 有 18/100 超出编码范围、
+  15/100 等于初态编码；不能仅凭这些现象确定模型、任务或后端哪一项有问题。
+  诊断写 `task_a_diagnostic.jsonl` 与 `task_a_diagnostic_summary.json`，不混入正式探针。
 
 ## 6. 待办与未定项
 

@@ -1,0 +1,158 @@
+{
+  "version": "register_v3.1",
+  "source_commit": "c2cc018",
+  "result_sha256": "603a66e7d0bb71ffb74d71ee7ae7c0b023a5e281d23f559e71f32bbd2b6c8941",
+  "n_records": 200,
+  "checks": {
+    "manifest_sha256": true,
+    "unique_ids": true,
+    "generated_questions_match": true,
+    "independent_gold_replay": true,
+    "job_ids_and_prompts_match": true,
+    "rescoring_match": true
+  },
+  "groups": {
+    "register2_easy": {
+      "n": 100,
+      "correct": 1,
+      "p1": 0.01,
+      "wilson95": [
+        0.0017674320641406505,
+        0.054486196178705315
+      ],
+      "predicted_cot20_not_measured": 1.0000000000000003e-40,
+      "in_probe_window": false,
+      "in_da1_descriptive_target": false,
+      "action": "弃用当前配置",
+      "parse_fail_rate": 0.0,
+      "trunc_rate": 0.0,
+      "unchanged_initial_answer_count": 15,
+      "out_of_answer_range_count": 18,
+      "da_extra_text_count": 0,
+      "run_meta": {
+        "tier": "B",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_commit": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "requested_model_revision": null,
+        "revision_kind": "hub_commit",
+        "local_revision_label": null,
+        "loading": {
+          "model": "Qwen/Qwen3-4B-Instruct-2507",
+          "dtype": "half",
+          "gpu_memory_utilization": 0.8,
+          "max_model_len": 8192,
+          "max_num_seqs": 1,
+          "enforce_eager": true,
+          "revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+          "tokenizer_revision": "cdbee75f17c01a7cc42f958dc650907174af0554"
+        },
+        "chat_kwargs": {},
+        "gpu": "Tesla T4",
+        "top_k_passed": false,
+        "packages": {
+          "vllm": "0.33.0",
+          "torch": "2.14.0",
+          "transformers": "5.20.2",
+          "datasets": "4.8.5",
+          "huggingface_hub": "1.33.0"
+        }
+      },
+      "samples": [
+        {
+          "qid": "9e783ccdcebd037aa33df54e3e8bb6a1a1078e287841202bc23c4fb3d0aaedfa",
+          "i": 0,
+          "question": "Process the operations in the listed order within each independent chain.\nFor each operation, compare the two values BEFORE either update; apply both updates simultaneously.\nEquality uses the otherwise branch. Registers not named in an operation stay unchanged.\nUse ordinary integer arithmetic, with no wrapping or clipping.\nChain 1: A=3, B=8\n1. If B > A, subtract 2 from B and add 3 to A; otherwise add 2 to B and subtract 3 from A.\nEncode the final registers of each chain as A*10 + B.\nWhat is the final encoded integer?",
+          "gold": "66",
+          "output": "####ANSWER=35"
+        },
+        {
+          "qid": "d2ed689acc61fe59d66538b67ecebac4abe88581ac760dcabddfaabff0c1f24c",
+          "i": 1,
+          "question": "Process the operations in the listed order within each independent chain.\nFor each operation, compare the two values BEFORE either update; apply both updates simultaneously.\nEquality uses the otherwise branch. Registers not named in an operation stay unchanged.\nUse ordinary integer arithmetic, with no wrapping or clipping.\nChain 1: A=7, B=1\n1. If A > B, subtract 3 from A and add 2 to B; otherwise add 3 to A and subtract 2 from B.\nEncode the final registers of each chain as A*10 + B.\nWhat is the final encoded integer?",
+          "gold": "43",
+          "output": "####ANSWER=46"
+        },
+        {
+          "qid": "92b743478a256d3cf67de17f101cafcb5657ac1a185b1e58a2840f2a80b72549",
+          "i": 2,
+          "question": "Process the operations in the listed order within each independent chain.\nFor each operation, compare the two values BEFORE either update; apply both updates simultaneously.\nEquality uses the otherwise branch. Registers not named in an operation stay unchanged.\nUse ordinary integer arithmetic, with no wrapping or clipping.\nChain 1: A=5, B=7\n1. If B > A, subtract 3 from B and add 2 to A; otherwise add 3 to B and subtract 2 from A.\nEncode the final registers of each chain as A*10 + B.\nWhat is the final encoded integer?",
+          "gold": "74",
+          "output": "####ANSWER=68"
+        }
+      ]
+    },
+    "register2_small": {
+      "n": 100,
+      "correct": 0,
+      "p1": 0.0,
+      "wilson95": [
+        3.469446951953614e-18,
+        0.03699349820698568
+      ],
+      "predicted_cot20_not_measured": 0.0,
+      "in_probe_window": false,
+      "in_da1_descriptive_target": false,
+      "action": "弃用当前配置",
+      "parse_fail_rate": 0.07,
+      "trunc_rate": 0.0,
+      "unchanged_initial_answer_count": 4,
+      "out_of_answer_range_count": 8,
+      "da_extra_text_count": 0,
+      "run_meta": {
+        "tier": "B",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_commit": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "requested_model_revision": null,
+        "revision_kind": "hub_commit",
+        "local_revision_label": null,
+        "loading": {
+          "model": "Qwen/Qwen3-4B-Instruct-2507",
+          "dtype": "half",
+          "gpu_memory_utilization": 0.8,
+          "max_model_len": 8192,
+          "max_num_seqs": 1,
+          "enforce_eager": true,
+          "revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+          "tokenizer_revision": "cdbee75f17c01a7cc42f958dc650907174af0554"
+        },
+        "chat_kwargs": {},
+        "gpu": "Tesla T4",
+        "top_k_passed": false,
+        "packages": {
+          "vllm": "0.33.0",
+          "torch": "2.14.0",
+          "transformers": "5.20.2",
+          "datasets": "4.8.5",
+          "huggingface_hub": "1.33.0"
+        }
+      },
+      "samples": [
+        {
+          "qid": "b0131f6431e1072ba60c2f6399514cfd9dd94bf30d4061b4d6842604a62a5ee9",
+          "i": 0,
+          "question": "Process the operations in the listed order within each independent chain.\nFor each operation, compare the two values BEFORE either update; apply both updates simultaneously.\nEquality uses the otherwise branch. Registers not named in an operation stay unchanged.\nUse ordinary integer arithmetic, with no wrapping or clipping.\nChain 1: A=64, B=55\n1. If A > B, subtract 6 from A and add 1 to B; otherwise add 6 to A and subtract 1 from B.\nEncode the final registers of each chain as A*100 + B.\nWhat is the final encoded integer?",
+          "gold": "5856",
+          "output": "####ANSWER=1006"
+        },
+        {
+          "qid": "a799d6ed26997899320ff226229e286fbf5a98d33cf83dec81c2b995eb2904e7",
+          "i": 1,
+          "question": "Process the operations in the listed order within each independent chain.\nFor each operation, compare the two values BEFORE either update; apply both updates simultaneously.\nEquality uses the otherwise branch. Registers not named in an operation stay unchanged.\nUse ordinary integer arithmetic, with no wrapping or clipping.\nChain 1: A=68, B=3\n1. If B > A, subtract 1 from B and add 8 to A; otherwise add 1 to B and subtract 8 from A.\nEncode the final registers of each chain as A*100 + B.\nWhat is the final encoded integer?",
+          "gold": "6004",
+          "output": "####ANSWER=6800"
+        },
+        {
+          "qid": "1d193f4ccbb631ca2ac9b19f22c2a6c4f1db5b31be63dc81afe0164b8e0713e9",
+          "i": 2,
+          "question": "Process the operations in the listed order within each independent chain.\nFor each operation, compare the two values BEFORE either update; apply both updates simultaneously.\nEquality uses the otherwise branch. Registers not named in an operation stay unchanged.\nUse ordinary integer arithmetic, with no wrapping or clipping.\nChain 1: A=62, B=39\n1. If B > A, subtract 8 from B and add 6 to A; otherwise add 8 to B and subtract 6 from A.\nEncode the final registers of each chain as A*100 + B.\nWhat is the final encoded integer?",
+          "gold": "5647",
+          "output": "####ANSWER=3846"
+        }
+      ]
+    }
+  },
+  "next_stage": "diagnostic",
+  "ready_for_slope": false,
+  "formal_generation_approved": false,
+  "interpretation": "两配置均不满足探针窗口；原始判分已复核。严重单步失败需先做基础能力与输入/批处理对照，尚不能确认任务难度或运行链路是原因。"
+}

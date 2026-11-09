@@ -1,0 +1,58 @@
+{
+  "version": "register_v3.1",
+  "stage": "probe",
+  "run_meta": {
+    "tier": "B",
+    "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+    "model_commit": "cdbee75f17c01a7cc42f958dc650907174af0554",
+    "requested_model_revision": null,
+    "revision_kind": "hub_commit",
+    "local_revision_label": null,
+    "loading": {
+      "model": "Qwen/Qwen3-4B-Instruct-2507",
+      "dtype": "half",
+      "gpu_memory_utilization": 0.8,
+      "max_model_len": 8192,
+      "max_num_seqs": 1,
+      "enforce_eager": true,
+      "revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+      "tokenizer_revision": "cdbee75f17c01a7cc42f958dc650907174af0554"
+    },
+    "chat_kwargs": {},
+    "gpu": "Tesla T4",
+    "top_k_passed": false,
+    "packages": {
+      "vllm": "0.33.0",
+      "torch": "2.14.0",
+      "transformers": "5.20.2",
+      "datasets": "4.8.5",
+      "huggingface_hub": "1.33.0"
+    }
+  },
+  "candidates": {
+    "register2_easy": {
+      "config": {
+        "name": "register2_easy",
+        "digits": 1,
+        "registers": 2,
+        "delta_max": 3
+      },
+      "summary": {
+        "n": 100,
+        "correct": 1,
+        "p1": 0.01,
+        "wilson95": [
+          0.0017674320641406505,
+          0.054486196178705315
+        ],
+        "predicted_cot20_not_measured": 1.0000000000000003e-40,
+        "in_probe_window": false,
+        "in_da1_descriptive_target": false,
+        "action": "弃用当前配置",
+        "parse_fail_rate": 0.0,
+        "trunc_rate": 0.0
+      }
+    }
+  },
+  "formal_generation_approved": false
+}
