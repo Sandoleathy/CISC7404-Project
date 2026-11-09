@@ -931,3 +931,29 @@ CoT 与 gap 均非单调，DA 从 d=5 起已在地板；本结果不是 gap 全�
 正式生成仍关闭，审核与 evidence_digest 绑定：
 `2faa1a59276e6bc913f96271c9a7060434d740728eb15fae4bcdb24dc62f7703`。
 待人工定题后再标记正式数据产出完成，不提前将 Task A 整体勾为完成。
+
+## Task A 人工接受与正式数据交付（2026-11-09）
+
+用户在收到定题报告、关键指标与 3000 题方案后回复“接受”。据此记录真实人工批准到
+`Experiments/task_a/task_a_human_review.json`，绑定审查提交 `3ecc14b`、候选 pointer40_lookup 和结果指纹
+`2faa1a59276e6bc913f96271c9a7060434d740728eb15fae4bcdb24dc62f7703`。
+批准接受 CA p=0.013 未达0.01、启发式 p1 窗口未达、曲线非单调、区间宽、步数控制主导 CoT 错误及并行读出成本。
+没有把这些偏离改写为数值通过，没有修改校准题、采样、原文或判分。
+
+在 CPU 执行 notebook 已有正式生成流程，先重算真实100条lookup探针和200条斜率、检查硬门槛与人工指纹，
+然后生成 formal split：串行 d=1..20 每格100题（2000条），并行 w=1..10 每格100题（1000条）。
+并行链长[1,2,...,2]、实际 d≤2、W=W_atomic=2w−1，与串行奇数 d=1..19 配平。
+每题40行只读表，路径无重复、并行路径节点不交；读出全部链的终点，不额外加聚合算子。
+
+全量3000题经 datasets 回读、独立按表求解、确定性重建、题干/id去重、查表字段和答案类型验证；
+与全部600条历史校准题按qid及完整题干比较，无重叠。30个单元均恰好100题。manifest和审核指纹校验一致。
+验证报告：`Experiments/task_a/task_a_final_validation.json`。
+正式产物：`Experiments/data_generation/synthesis_pointer_numeric_dataset.jsonl` 与同名 `.manifest.json`。
+SHA256：`6b76b73f6ba3b523cbc8c59de8f5fc904deccd0e1b316e16364325820a9382ed`。
+
+notebook 保留默认 offline / GENERATE_FINAL=False，避免重复推理或写入；需要复现时启用生成，
+会读取已批准审核文件并重新校验真实结果。完整执行输出仅保留在忽略的 work/task_a/，不提交大段输出。
+数据使用说明强调仅把 q 作为题干，ans/answers/trace 是 gold 元数据，不可泄漏给模型。
+
+Task A 的定题、校准、人工审查、正式串行与配平并行数据、文档回填均完成；接受的指标例外继续保留。
+本次仅生成并验证题集，没有执行正式全矩阵推理、Task B 或合并复核。

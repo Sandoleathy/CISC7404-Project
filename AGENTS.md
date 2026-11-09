@@ -216,7 +216,7 @@ vLLM 0.33.0 的本次 Colab 运行中该字段为空，但模型本身已经加�
 - ❌ 提交 `models/`、`gsm8k_dataset/`、`ifeval/`、`.venv/`（已在 `.gitignore`）
 - ❌ 在没有 GPU 的机器上执行需要 CUDA 的 cell 后把报错当成代码 bug 修
 
-### 5.5 Task A v3：lookup 斜率已完成，待人工定题
+### 5.5 Task A v3：lookup 已人工定题，正式数据已交付
 
 - 入口：`Experiments/task_a/experiment_task_a.ipynb`。200 条真实寄存器探针为
   `register2_small=0/100`、`register2_easy=1/100`，两配置不进入斜率或正式生成。
@@ -226,7 +226,8 @@ vLLM 0.33.0 的本次 Colab 运行中该字段为空，但模型本身已经加�
   寄存器组合编码题 DA 0/4、CoT 4/4，不编码读出 DA 1/2、CoT 2/2。
   重复提交不是独立样本；无解析失败或截断。有限控题不支持输入错配或提交批量故障的解释，
   也不能用来估计正式 p1。原文及审查见 `task_a_diagnostic*.json*`。
-- 当前候选 `pointer_numeric_v1` 固定 40 行编号表，首选每步 `current += delta[current]`；
+- 最终选定 `pointer_numeric_v1` / `pointer40_lookup`：固定 40 行编号表，每步 `current = next[current]`。
+  历史 delta 候选每步 `current += delta[current]`，仅保留复核；
   每一步同构，答案为最终编号，无编码/mod/聚合。难度旋钮为编号位数与表行顺序；若偏难，
   试 `current = next[current]` 查表变体。不得混合不同变体统计。
   串行路径无重复，d=1..20。并行共享只读表，路径节点不重叠（w=10 最多 29 个节点）。
@@ -256,15 +257,16 @@ vLLM 0.33.0 的本次 Colab 运行中该字段为空，但模型本身已经加�
   CoT(20) Wilson 95% CI [0.4810,0.8545]，gap 增长 bootstrap CI [0.15,0.70]；均非总体确定性结论。
   CoT 曲线和 gap 非单调，DA 从 d=5 即地板，不能宣称 gap 持续随 d 上升。
 - 助手逐条读完全部 11 条 CoT 错误：9 条多走一步、2 条少走一步，未观察到这些错误中有查表转移错。
-  需人工判断是否接受步数控制主导梯度的解释范围；不能把助手分析当人工批准。
+  用户已接受步数控制主导梯度的解释范围；人工批准另存 task_a_human_review.json，不把助手分析当批准。
   审查文件为 `task_a_lookup_review.md` / `.json`，曲线为 `task_a_lookup_calibration.png`。
   原上传 400 条（指针探针+斜率）及清单/摘要保存在 `archives/lookup_slope_20261109/`。
 - 当前默认 `RUN_STAGE="offline"`，有完整本地 JSONL 时用 CPU 复核已完成校准；不再反复跑 GPU。
   `review_lookup_calibration()` 生成审核指标与错误端点线索，最终仍需读原文，不能按端点线索重判。
-  `GENERATE_FINAL=False`；人工接受上述局限后才填 REVIEW 并生成 2000 串行+1000 并行。
+  `GENERATE_FINAL=False` 仅用于避免默认重复生成；REVIEW 从已批准的 task_a_human_review.json 读取。
+  2026-11-09 用户回复“接受”，已按该审核生成并验证 2000 串行+1000 并行，重新生成仍校验结果指纹。
   不为跨过 p<0.01 而事后增样本/改方向/挑选题目，正式生成也不等于正式矩阵已测量。
 - 必须先真实探针，再小样本斜率，再人工审核，正式生成默认关闭。
-  **斜率硬目标点估计已达，尚待人工定题；不能声称所有辅助目标通过或正式数据已生成。**
+  **Task A 按人工接受的例外完成，正式3000题已交付；不能声称所有辅助指标数值达标。**
   使用第 3 节用户跑通的 T4 参数；A 档只自测，模拟结果不能冒充真实校准。
   `task.md` DA(1) 0.80–0.95 与探针 0.955–0.986 不相交，分别报告；`p1**20` 仅启发式预测。
   CA 检验对象为 CoT 准确率随深度下降，gap 端点差另报配对 bootstrap 区间。
@@ -277,12 +279,15 @@ vLLM 0.33.0 的本次 Colab 运行中该字段为空，但模型本身已经加�
   指针原 ZIP 的三份文件完整存于 `archives/pointer_search_d2b57a4/`；
   当前导出清单重新记录合并后的 600 条总数与 SHA256，原寄存器清单另存 `archives/register_probe_c2cc018/`。
   最后一格下载 ZIP，保存 notebook 到 GitHub 不会保存 JSONL，须同时提交原文与摘要。
-- 真实校准与人工审核后，指针正式文件为
+- 经真实校准与人工审核，已交付指针正式文件：
   `Experiments/data_generation/synthesis_pointer_numeric_dataset.jsonl` 与同名 `.manifest.json`；
   默认 2000 串行 + 1000 并行，与校准题不重叠。旧寄存器生成接口仍保留。
   指针查表字段：START / OPS / TABLE_SIZE / INDEX_MIN / INDEX_MAX / FIRST / LAST；
   FIRST/LAST 指印出的首/末表行。寄存器才有 MAXDELTA，不能机械迁移到指针；此处不做 Task B 筛选。
-  下一次实测后回填本节、`record.md` 与 `task.md`。
+  正式数据使用说明在 `Experiments/data_generation/synthesis_pointer_numeric_dataset.README.md`。
+  `task_a_final_validation.json` 记录3000题全量复算、datasets回读、确定性重建、去重、全部600条校准隔离及W配平。
+  `q` 才是模型题干，不能把 `trace` / `answers` / `ans` 等gold元数据传给模型。
+  正式全矩阵推理、Task B 与合并复核未执行。
 
 ## 6. 待办与未定项
 
