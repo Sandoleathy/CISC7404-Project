@@ -1,0 +1,340 @@
+{
+  "version": "register_v3.1",
+  "stage": "diagnostic",
+  "n": 64,
+  "table": [
+    {
+      "kind": "arithmetic",
+      "mode": "CoT",
+      "batch_size": 1,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "arithmetic",
+      "mode": "CoT",
+      "batch_size": 16,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "arithmetic",
+      "mode": "DA",
+      "batch_size": 1,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "arithmetic",
+      "mode": "DA",
+      "batch_size": 16,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "compare",
+      "mode": "CoT",
+      "batch_size": 1,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "compare",
+      "mode": "CoT",
+      "batch_size": 16,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "compare",
+      "mode": "DA",
+      "batch_size": 1,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "compare",
+      "mode": "DA",
+      "batch_size": 16,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "copy",
+      "mode": "CoT",
+      "batch_size": 1,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "copy",
+      "mode": "CoT",
+      "batch_size": 16,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "copy",
+      "mode": "DA",
+      "batch_size": 1,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "copy",
+      "mode": "DA",
+      "batch_size": 16,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "encoding",
+      "mode": "CoT",
+      "batch_size": 1,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "encoding",
+      "mode": "CoT",
+      "batch_size": 16,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "encoding",
+      "mode": "DA",
+      "batch_size": 1,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "encoding",
+      "mode": "DA",
+      "batch_size": 16,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "read",
+      "mode": "CoT",
+      "batch_size": 1,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "read",
+      "mode": "CoT",
+      "batch_size": 16,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "read",
+      "mode": "DA",
+      "batch_size": 1,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "read",
+      "mode": "DA",
+      "batch_size": 16,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "register_encoded",
+      "mode": "CoT",
+      "batch_size": 1,
+      "n": 4,
+      "correct": 4,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "register_encoded",
+      "mode": "CoT",
+      "batch_size": 16,
+      "n": 4,
+      "correct": 4,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "register_encoded",
+      "mode": "DA",
+      "batch_size": 1,
+      "n": 4,
+      "correct": 0,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "register_encoded",
+      "mode": "DA",
+      "batch_size": 16,
+      "n": 4,
+      "correct": 0,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "register_pair",
+      "mode": "CoT",
+      "batch_size": 1,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "register_pair",
+      "mode": "CoT",
+      "batch_size": 16,
+      "n": 2,
+      "correct": 2,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "register_pair",
+      "mode": "DA",
+      "batch_size": 1,
+      "n": 2,
+      "correct": 1,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    },
+    {
+      "kind": "register_pair",
+      "mode": "DA",
+      "batch_size": 16,
+      "n": 2,
+      "correct": 1,
+      "input_token_mismatches": 0,
+      "parse_failures": 0,
+      "truncations": 0
+    }
+  ],
+  "input_token_mismatches": 0,
+  "core_errors": 0,
+  "submission_pair_text_differences": [
+    {
+      "qid": "e3c21aed1ebcddb3a12d6264b57608a61d9a1ccf31dc0acb66d8b6b038167d1d",
+      "mode": "CoT",
+      "single_text": "We are given a chain of operations with initial values and a conditional rule. Let's process it step by step, following the instructions carefully.\n\n---\n\n**Chain 1: A = 3, B = 8**\n\n### Operation 1:\n> If B > A, subtract 2 from B and add 3 to A; otherwise add 2 to B and subtract 3 from A.\n\nWe compare **B and A** **before** any update.\n\n- B = 8\n- A = 3\n- Is B > A? → 8 > 3 → **Yes**\n\nSo we apply:\n- Subtract 2 from B → B = 8 - 2 = 6\n- Add 3 to A → A = 3 + 3 = 6\n\n**After operation 1:**\n- A = 6\n- B = 6\n\n---\n\nNow, we are to return the final value of A followed by the final value of B.\n\n#### Final values:\n- A = 6\n- B = 6\n\n---\n\n####ANSWER=6,6",
+      "batch_text": "We are given a chain of operations with initial values and a conditional rule. Let's process it step by step, following the instructions carefully.\n\n---\n\n**Chain 1: A = 3, B = 8**\n\n**Operation 1:**  \n\"If B > A, subtract 2 from B and add 3 to A; otherwise add 2 to B and subtract 3 from A.\"\n\nWe must **compare the values BEFORE any update**.\n\nCurrent values:  \nA = 3  \nB = 8\n\nCompare: Is B > A?  \n8 > 3 → **Yes**\n\nSo, we apply:  \n- Subtract 2 from B → B = 8 - 2 = 6  \n- Add 3 to A → A = 3 + 3 = 6\n\n**After operation 1:**  \nA = 6  \nB = 6\n\n(Registers not named stay unchanged — only A and B are updated.)\n\n---\n\nNow, we are to **return the final value of A followed by the final value of B**.\n\nFinal values: A = 6, B = 6\n\n####ANSWER=6,6"
+    },
+    {
+      "qid": "0249b9b8b3ad0f9ffed70419db3aac6dffcfda2396e1c32be85edf46fc25f139",
+      "mode": "CoT",
+      "single_text": "We are given a chain of operations to process in order. Let's go step by step, carefully tracking the register values.\n\n---\n\n**Chain 1: Initial values**  \nA = 64  \nB = 55  \n\nWe process the first operation:\n\n---\n\n**Operation 1:**  \n*If A > B, subtract 6 from A and add 1 to B; otherwise add 6 to A and subtract 1 from B.*\n\n### Step 1: Compare A and B before any update  \nA = 64  \nB = 55  \nIs A > B? → Yes (64 > 55)\n\nSo we apply:  \n- Subtract 6 from A → A = 64 - 6 = 58  \n- Add 1 to B → B = 55 + 1 = 56  \n\n**After operation 1:**  \nA = 58  \nB = 56  \n\n> Note: The problem says \"compare the two values BEFORE either update; apply both updates simultaneously.\"  \n> So we only do the update if the condition is true, and we do both changes at once.  \n> We also note that \"Equality uses the otherwise branch\" — but here A > B, so we use the \"if\" branch.\n\n---\n\nNow, are there more operations?  \nThe problem says: \"Process the operations in the listed order within each independent chain.\"  \nBut only **one operation** is listed.\n\nSo we stop here.\n\n---\n\nFinal values:  \nA = 58  \nB = 56  \n\nEncode as: A × 100 + B = 58 × 100 + 56 = 5800 + 56 = **5856**\n\n---\n\n####ANSWER=5856",
+      "batch_text": "We are given a chain of operations to process in order. Let's go step by step, carefully tracking the register values.\n\n---\n\n**Chain 1: Initial values**  \nA = 64  \nB = 55  \n\nWe process the first operation:\n\n---\n\n**Operation 1:**  \n*If A > B, subtract 6 from A and add 1 to B; otherwise add 6 to A and subtract 1 from B.*\n\n### Step 1: Compare A and B before any update  \nA = 64  \nB = 55  \nIs A > B? → Yes (64 > 55)\n\nSo we apply:  \n- Subtract 6 from A → A = 64 - 6 = 58  \n- Add 1 to B → B = 55 + 1 = 56  \n\n**After Operation 1:**  \nA = 58  \nB = 56  \n\n> Note: The problem says \"compare the two values BEFORE either update; apply both updates simultaneously.\"  \n> So we only do the update if the condition is true, and we do both changes at once.  \n> We also note that \"Equality uses the otherwise branch\" — but here A > B, so we use the \"if\" branch.\n\n---\n\nNow, are there more operations?  \nThe problem says: \"Process the operations in the listed order within each independent chain.\"  \nBut only **one operation** is listed.\n\nSo we stop here.\n\n---\n\nFinal values:  \nA = 58  \nB = 56  \n\nEncode as: A × 100 + B = 58 × 100 + 56 = 5800 + 56 = **5856**\n\n---\n\n####ANSWER=5856"
+    },
+    {
+      "qid": "ae45180cf68da9dc4ce865437c1c6bfc6ea7b7590080f53e58640f6b07a3b4ad",
+      "mode": "CoT",
+      "single_text": "We are given **Chain 1** with initial values:\n\n- A = 68  \n- B = 3  \n\nWe process the operation in order. For each operation:\n\n- We **compare the two values BEFORE any update**.\n- Then, **apply both updates simultaneously** (i.e., both actions happen at once if the condition is true or false).\n- The **equality uses the otherwise branch** — meaning: if **B is not greater than A**, then we do the \"otherwise\" part (add 1 to B, subtract 8 from A).\n- Registers not named are unchanged.\n- All operations are done in **ordinary integer arithmetic**, no wrapping.\n\n---\n\n### Step 1: Operation 1\n\n**Before update:**\n- A = 68\n- B = 3\n\nCompare: Is **B > A**?  \nIs 3 > 68? → **No**\n\nSo, we go to the **otherwise branch**:\n\n- Add 1 to B → B = 3 + 1 = 4  \n- Subtract 8 from A → A = 68 - 8 = 60  \n\n**After update:**\n- A = 60  \n- B = 4  \n\n---\n\nNow, we have processed all operations in the chain (only one operation listed).\n\nWe now compute the final encoded integer:\n\n> A * 100 + B = 60 * 100 + 4 = 6000 + 4 = 6004\n\n---\n\n####ANSWER=6004",
+      "batch_text": "We are given **Chain 1** with initial values:\n\n- A = 68  \n- B = 3  \n\nWe process the operation in order. For each operation:\n\n- We **compare the two values BEFORE any update**.\n- Then, **apply both updates simultaneously** (i.e., both actions happen at once if the condition is true or false).\n- The **equality uses the otherwise branch**, meaning:  \n  If **B > A**, do:  \n    - subtract 1 from B  \n    - add 8 to A  \n  Otherwise (i.e., if B ≤ A), do:  \n    - add 1 to B  \n    - subtract 8 from A\n\nWe are to **process only one operation** (as listed), and then **encode the final registers** as:\n\n> A × 100 + B\n\nLet’s go step by step.\n\n---\n\n### Initial values:\n- A = 68  \n- B = 3  \n\n### Operation 1:\n**Condition**: Is B > A?  \n→ Is 3 > 68? → No → **Otherwise branch applies**\n\nSo we do:\n- Add 1 to B → B = 3 + 1 = 4  \n- Subtract 8 from A → A = 68 - 8 = 60  \n\n**Register values after operation:**\n- A = 60  \n- B = 4  \n\n(No other operations are listed in Chain 1.)\n\n---\n\n### Final encoding:\nA × 100 + B = 60 × 100 + 4 = 6000 + 4 = **6004**\n\n####ANSWER=6004"
+    }
+  ],
+  "next_action": "基础控题通过；结合编码/条件更新及 DA/CoT 差异调整任务，或尝试编号数组指针，再重跑 100 题探针。",
+  "ready_for_slope": false,
+  "formal_generation_approved": false,
+  "run_meta": {
+    "tier": "B",
+    "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+    "model_commit": "cdbee75f17c01a7cc42f958dc650907174af0554",
+    "requested_model_revision": null,
+    "revision_kind": "hub_commit",
+    "local_revision_label": null,
+    "loading": {
+      "model": "Qwen/Qwen3-4B-Instruct-2507",
+      "dtype": "half",
+      "gpu_memory_utilization": 0.8,
+      "max_model_len": 8192,
+      "max_num_seqs": 1,
+      "enforce_eager": true,
+      "revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+      "tokenizer_revision": "cdbee75f17c01a7cc42f958dc650907174af0554"
+    },
+    "chat_kwargs": {},
+    "gpu": "Tesla T4",
+    "top_k_passed": false,
+    "packages": {
+      "vllm": "0.33.0",
+      "torch": "2.14.0",
+      "transformers": "5.20.2",
+      "datasets": "4.8.5",
+      "huggingface_hub": "1.33.0"
+    }
+  }
+}

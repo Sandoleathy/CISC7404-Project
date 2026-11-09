@@ -176,7 +176,8 @@ vLLM 0.33.0 的本次 Colab 运行中该字段为空，但模型本身已经加�
   `VLLM_ENABLE_V1_MULTIPROCESSING=0`、`VLLM_LOGGING_LEVEL=DEBUG`。
 - 日志选择 `TRITON_ATTN`；不要因为日志提示 T4 不支持 FA2 就误判整个加载失败，实际有后端回退。
 - 这是 T4 上针对 4B 的实际配置，不是将 1.7B 的 8GB 模板直接套用。采样参数未改。
-  已验证“能完成推理”，但准确率异常偏低，尚未验证数值/输入链路可靠性。
+  已验证能完成推理；随后 64 条诊断的基础控题、输入 token 与提交批量对照通过。
+  这是有限控题的证据，不等于证明后端在所有题目上数值完全可靠。
 - 多进程开关可能影响全局随机状态；题目和统计使用局部 `random.Random`，本轮 200 题已重建一致。
   不把一次同时修改多个选项后的成功归因于其中某个选项。
 
@@ -215,43 +216,47 @@ vLLM 0.33.0 的本次 Colab 运行中该字段为空，但模型本身已经加�
 - ❌ 提交 `models/`、`gsm8k_dataset/`、`ifeval/`、`.venv/`（已在 `.gitignore`）
 - ❌ 在没有 GPU 的机器上执行需要 CUDA 的 cell 后把报错当成代码 bug 修
 
-### 5.5 Task A v3：寄存器任务（首轮探针已回收，待诊断）
+### 5.5 Task A v3：寄存器诊断完成，转编号数组指针
 
-- 入口：`Experiments/task_a/experiment_task_a.ipynb`。已回收 200 条真实单步 DA 探针，
-  `register2_small=0/100`，`register2_easy=1/100`。两配置不进入斜率验证，
-  **尚未选定正式任务，不能声称 p1 或深度曲线达标**。
-- 首选双寄存器条件更新；每步比较旧值，再同时一加一减，等号走 otherwise。两个增量不相等，
-  避免总和守恒捷径；寄存器在编码基数范围内，禁止 mod / 截断 / 聚合。
-  双寄存器默认 `ans=A*100+B`，三寄存器候选保留所有状态的编码。
-- `W` 是提案约定的复合更新次数，另记 `W_atomic=3W`（一次比较、两次加减）。
-  并行独立链长度为 `[1,2,...,2]`，`W=2w-1`，实际 `d=1`（w=1）或 `2`，
-  `matched_serial_d=2w-1`。仅匹配串行奇数深度 1..19；w=1 是退化对照。
-  并行输出每条链的答案，需人工评估读出长度混杂，不能把配平当作无混杂因果对照。
-- 顺序：100 条 DA 单步探针 → 独立的 5 深度 × 20 题 × DA/CoT → **人工审核** → 正式生成。
-  当前默认 `RUN_STAGE="diagnostic"`：16 个控题 × DA/CoT × 提交批量 1/16，共 64 条。
-  区分抄写/读数/加减/比较/编码/条件更新，并核对实际输入 token；不把诊断小样本当正式 p1。
+- 入口：`Experiments/task_a/experiment_task_a.ipynb`。200 条真实寄存器探针为
+  `register2_small=0/100`、`register2_easy=1/100`，两配置不进入斜率或正式生成。
+  生成器仍保留用于重建历史结果：同时条件更新，无 mod/聚合，编码完整状态，`W_atomic=3W`。
+- 提交 `6cea939` 及上传的 64 条诊断已经复核：预期/实际输入 token 全部相同，32 对单条/批量
+  最终答案完全一致（3 对仅 CoT 文本不同）。基础抄写/读数/加减/比较/独立编码各模式均 2/2；
+  寄存器组合编码题 DA 0/4、CoT 4/4，不编码读出 DA 1/2、CoT 2/2。
+  重复提交不是独立样本；无解析失败或截断。有限控题不支持输入错配或提交批量故障的解释，
+  也不能用来估计正式 p1。原文及审查见 `task_a_diagnostic*.json*`。
+- 当前候选 `pointer_numeric_v1` 固定 40 行编号表，首选每步 `current += delta[current]`；
+  每一步同构，答案为最终编号，无编码/mod/聚合。难度旋钮为编号位数与表行顺序；若偏难，
+  试 `current = next[current]` 查表变体。不得混合不同变体统计。
+  串行路径无重复，d=1..20。并行共享只读表，路径节点不重叠（w=10 最多 29 个节点）。
+  链长 `[1,2,...,2]`，实际 d=1（w=1）或 2，`W=2w-1`、`matched_serial_d=W`；
+  匹配串行奇数深度 1..19。delta 的 `W_atomic=2W`，lookup 为 `W`。
+  输出每条链的答案，人工审核仍须评估多答案读出成本，不能声称无混杂。
+- 默认 `RUN_STAGE="search"`：从 `pointer40_delta`（0..39）开始，最多 3 个配置各 100 条 DA。
+  太易（≥0.99）试三位编号；三位太易则打乱行，偏难则试全两位编号。起点偏难则试纯查表，
+  查表太易再打乱行，仍偏难则停止。命中 [0.955,0.986] 后仅跑一次独立 5 深度×20×DA/CoT，
+  然后停止供人工审核。最多 500 条新推理，未命中不选择“最接近”配置，斜率失败不无限重试。
+  `probe` / `slope` 可指定配置手动运行；`diagnostic` 保留旧控题；CPU 验证用 `offline`。
   引擎 max_num_seqs=1，提交批量 16 不代表同时计算 16 个序列。
-  本地 CPU 验证须明确改成 `offline`。诊断后再调整任务并重跑 100 条 probe。
-  `slope` 阶段要求已有真实探针 JSONL；正式生成仍默认关闭。
-  复用第 3 节的 A 档和既有 T4 B 档加载/采样设置。
-  A 档结果仅自测，不用于 B 档定题。模拟结果不得写入或冒充真实校准。
-- `task.md` 的 DA(1) 0.80–0.95 与探针 0.955–0.986 不相交，分别报告。
-  `p1**20` 仅为启发式预测；Cochran–Armitage 检验对象明确为 CoT 准确率随深度下降，
-  gap 端点差另用配对 bootstrap 报区间。不能将该检验说成 gap 趋势的检验。
-- 真实结果写 `Experiments/task_a/calib_v3_task.jsonl`（断点续跑，保留原文、模型版本、采样参数、
-  answer_ok、解析和截断诊断）；题目写 `work/task_a/`，真实探针/斜率摘要写结果文件同目录。
-  最后一格生成并在 Colab 下载 `task_a_results.zip`，核对当前阶段已完成/预期条数。
-  仅保存 notebook 到 GitHub 不会保存原始 JSONL，须解压结果包并提交其中的结果文件。
-  审核后才写 `Experiments/data_generation/synthesis_register_dataset.jsonl` 与 `.manifest.json`，
-  默认 2000 串行 + 1000 并行；正式题不与校准题重叠。
-- 查表字段为各链的 `START / OPS / FIRST / LAST / MAXDELTA`；`NEG` 不适用，不能机械迁移。
-  此处仅提供字段，不做 Task B 的约束筛选。实测后须回填本节、`record.md` 和 `task.md`。
-- 已复核 `c2cc018` 及上传结果包：SHA256、200 个唯一 id、题目重建、独立 gold 和判分一致。
-  原始文件 `calib_v3_task.jsonl` 保持字节不变；`task_a_probe_review.json` 汇总两组，
-  上传的 `task_a_probe_summary.json` 只含最后一次 easy 组，不能忽略原文里的 small 组。
-  两组均无截断；small 解析失败 7/100，easy 为 0/100。easy 有 18/100 超出编码范围、
-  15/100 等于初态编码；不能仅凭这些现象确定模型、任务或后端哪一项有问题。
-  诊断写 `task_a_diagnostic.jsonl` 与 `task_a_diagnostic_summary.json`，不混入正式探针。
+- 必须先真实探针，再小样本斜率，再人工审核，正式生成默认关闭。
+  **当前指针候选尚无真实结果，尚未选定正式任务，不能声称 p1 或深度曲线达标。**
+  使用第 3 节用户跑通的 T4 参数；A 档只自测，模拟结果不能冒充真实校准。
+  `task.md` DA(1) 0.80–0.95 与探针 0.955–0.986 不相交，分别报告；`p1**20` 仅启发式预测。
+  CA 检验对象为 CoT 准确率随深度下降，gap 端点差另报配对 bootstrap 区间。
+- 真实探针/斜率写 `Experiments/task_a/calib_v3_task.jsonl`，诊断单独写
+  `task_a_diagnostic.jsonl`，断点按题目/prompt/模型/采样指纹去重。题目写 `work/task_a/`。
+  原 200 条探针与 64 条诊断已逐题重建、复核 gold/指纹/判分，原始字节保留；旧探针上传摘要
+  只含 easy 组，完整结论应看 `task_a_probe_review.json`。诊断导出清单另存
+  `task_a_diagnostic_export_manifest.json`，不覆盖原探针清单。
+  `search` 报告为 `task_a_search_summary.json`，入选后另写 `task_a_summary.json`。
+  最后一格下载 ZIP，保存 notebook 到 GitHub 不会保存 JSONL，须同时提交原文与摘要。
+- 真实校准与人工审核后，指针正式文件为
+  `Experiments/data_generation/synthesis_pointer_numeric_dataset.jsonl` 与同名 `.manifest.json`；
+  默认 2000 串行 + 1000 并行，与校准题不重叠。旧寄存器生成接口仍保留。
+  指针查表字段：START / OPS / TABLE_SIZE / INDEX_MIN / INDEX_MAX / FIRST / LAST；
+  FIRST/LAST 指印出的首/末表行。寄存器才有 MAXDELTA，不能机械迁移到指针；此处不做 Task B 筛选。
+  下一次实测后回填本节、`record.md` 与 `task.md`。
 
 ## 6. 待办与未定项
 
