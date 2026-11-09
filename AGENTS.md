@@ -216,7 +216,7 @@ vLLM 0.33.0 的本次 Colab 运行中该字段为空，但模型本身已经加�
 - ❌ 提交 `models/`、`gsm8k_dataset/`、`ifeval/`、`.venv/`（已在 `.gitignore`）
 - ❌ 在没有 GPU 的机器上执行需要 CUDA 的 cell 后把报错当成代码 bug 修
 
-### 5.5 Task A v3：指针探针完成，待 lookup 斜率验证
+### 5.5 Task A v3：lookup 斜率已完成，待人工定题
 
 - 入口：`Experiments/task_a/experiment_task_a.ipynb`。200 条真实寄存器探针为
   `register2_small=0/100`、`register2_easy=1/100`，两配置不进入斜率或正式生成。
@@ -242,7 +242,7 @@ vLLM 0.33.0 的本次 Colab 运行中该字段为空，但模型本身已经加�
 - 提交 `d2b57a4` 与 ZIP 的 200 条指针探针已复核：delta 11/100（Wilson 95% CI
   0.0625–0.1863），lookup 87/100（0.7902–0.9224）；均无解析失败、截断或输入 token 哈希/长度不匹配。
   搜索正常停止，未跑斜率。delta 不继续；lookup 在 A.0 的 DA(1) 描述范围内，但不在启发式窗口。
-- 本轮默认 `RUN_STAGE="slope"`、`SELECTED="pointer40_lookup"`；`PROBE_OVERRIDE_REASON`
+- 上一轮 `RUN_STAGE="slope"`、`SELECTED="pointer40_lookup"`；`PROBE_OVERRIDE_REASON`
   明确记录例外：DA 单步率并非 CoT 独立逐步成功率，因此不按 p1**20 判定 CoT(20) 地板，
   先做一次独立 5 深度×20×DA/CoT（200 条）验证唯一硬目标。不是将 0.87 宣称为探针窗口达标。
   不修改题目、prompt、seed、GPU 或采样，不重新运行已有探针；不自动批准正式生成。
@@ -250,19 +250,32 @@ vLLM 0.33.0 的本次 Colab 运行中该字段为空，但模型本身已经加�
   校验固定 SHA256、逐题重建/判分/指纹后合并，保留原文、拒绝同 id 冲突。
   本地已有完整匹配探针则不联网。实际模型/环境指纹不匹配时仍拒绝复用，不篡改来源以绕过门槛。
   网络失败可手动把已导出 ZIP 的 JSONL 放入 RESULT_PATH。在线来源使用 GitHub raw，校验值固定。
+- 本次先按用户要求独立归档并推送原文 `ae03c89`，再进行分析。lookup 斜率 200 条已完整复核：
+  d=1,5,10,15,20 的 DA 正确数为 15/0/0/0/0，CoT 为 20/17/20/18/14（每格 20）。
+  CoT(20)=0.70，DA(20)=0，gap 增长 0.45；CA 双侧 p=0.0130003 未达 0.01，不改用单侧检验。
+  CoT(20) Wilson 95% CI [0.4810,0.8545]，gap 增长 bootstrap CI [0.15,0.70]；均非总体确定性结论。
+  CoT 曲线和 gap 非单调，DA 从 d=5 即地板，不能宣称 gap 持续随 d 上升。
+- 助手逐条读完全部 11 条 CoT 错误：9 条多走一步、2 条少走一步，未观察到这些错误中有查表转移错。
+  需人工判断是否接受步数控制主导梯度的解释范围；不能把助手分析当人工批准。
+  审查文件为 `task_a_lookup_review.md` / `.json`，曲线为 `task_a_lookup_calibration.png`。
+  原上传 400 条（指针探针+斜率）及清单/摘要保存在 `archives/lookup_slope_20261109/`。
+- 当前默认 `RUN_STAGE="offline"`，有完整本地 JSONL 时用 CPU 复核已完成校准；不再反复跑 GPU。
+  `review_lookup_calibration()` 生成审核指标与错误端点线索，最终仍需读原文，不能按端点线索重判。
+  `GENERATE_FINAL=False`；人工接受上述局限后才填 REVIEW 并生成 2000 串行+1000 并行。
+  不为跨过 p<0.01 而事后增样本/改方向/挑选题目，正式生成也不等于正式矩阵已测量。
 - 必须先真实探针，再小样本斜率，再人工审核，正式生成默认关闭。
-  **已有指针探针，但尚无斜率结果或正式任务，不能声称深度曲线达标。**
+  **斜率硬目标点估计已达，尚待人工定题；不能声称所有辅助目标通过或正式数据已生成。**
   使用第 3 节用户跑通的 T4 参数；A 档只自测，模拟结果不能冒充真实校准。
   `task.md` DA(1) 0.80–0.95 与探针 0.955–0.986 不相交，分别报告；`p1**20` 仅启发式预测。
   CA 检验对象为 CoT 准确率随深度下降，gap 端点差另报配对 bootstrap 区间。
 - 真实探针/斜率写 `Experiments/task_a/calib_v3_task.jsonl`，诊断单独写
   `task_a_diagnostic.jsonl`，断点按题目/prompt/模型/采样指纹去重。题目写 `work/task_a/`。
-  现有 400 条探针（寄存器 200 + 指针 200）与 64 条诊断已逐题复核，原始行字节保留；旧探针上传摘要
+  现有 canonical 600 条（寄存器探针 200 + 指针探针 200 + lookup 斜率 200），另有 64 条诊断，原始行字节保留；旧探针上传摘要
   只含 easy 组，完整结论应看 `task_a_probe_review.json`。诊断导出清单另存
   `task_a_diagnostic_export_manifest.json`，不覆盖原探针清单。
   `search` 报告为 `task_a_search_summary.json`；斜率写 `task_a_summary.json`，包含例外理由。
   指针原 ZIP 的三份文件完整存于 `archives/pointer_search_d2b57a4/`；
-  当前导出清单重新记录合并后的 400 条总数与 SHA256，原寄存器清单另存 `archives/register_probe_c2cc018/`。
+  当前导出清单重新记录合并后的 600 条总数与 SHA256，原寄存器清单另存 `archives/register_probe_c2cc018/`。
   最后一格下载 ZIP，保存 notebook 到 GitHub 不会保存 JSONL，须同时提交原文与摘要。
 - 真实校准与人工审核后，指针正式文件为
   `Experiments/data_generation/synthesis_pointer_numeric_dataset.jsonl` 与同名 `.manifest.json`；

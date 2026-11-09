@@ -1,0 +1,423 @@
+{
+  "candidate": "pointer40_lookup",
+  "run_meta": {
+    "tier": "B",
+    "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+    "model_commit": "cdbee75f17c01a7cc42f958dc650907174af0554",
+    "requested_model_revision": null,
+    "revision_kind": "hub_commit",
+    "local_revision_label": null,
+    "loading": {
+      "model": "Qwen/Qwen3-4B-Instruct-2507",
+      "dtype": "half",
+      "gpu_memory_utilization": 0.8,
+      "max_model_len": 8192,
+      "max_num_seqs": 1,
+      "enforce_eager": true,
+      "revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+      "tokenizer_revision": "cdbee75f17c01a7cc42f958dc650907174af0554"
+    },
+    "chat_kwargs": {},
+    "gpu": "Tesla T4",
+    "top_k_passed": false,
+    "packages": {
+      "vllm": "0.33.0",
+      "torch": "2.14.0",
+      "transformers": "5.20.2",
+      "datasets": "4.8.5",
+      "huggingface_hub": "1.33.0"
+    }
+  },
+  "probe": {
+    "n": 100,
+    "correct": 87,
+    "p1": 0.87,
+    "wilson95": [
+      0.7901964855992357,
+      0.9224283257275948
+    ],
+    "predicted_cot20_not_measured": 0.061714192718529605,
+    "in_probe_window": false,
+    "in_da1_descriptive_target": true,
+    "action": "偏低，微调配置后重新探针",
+    "parse_fail_rate": 0.0,
+    "trunc_rate": 0.0
+  },
+  "slope": {
+    "table": [
+      {
+        "d": 1,
+        "DA": {
+          "n": 20,
+          "correct": 15,
+          "accuracy": 0.75,
+          "wilson95": [
+            0.531299122381256,
+            0.8881382985923343
+          ],
+          "trunc_rate": 0.0,
+          "parse_fail_rate": 0.0,
+          "mean_tokens": 6.85
+        },
+        "CoT": {
+          "n": 20,
+          "correct": 20,
+          "accuracy": 1.0,
+          "wilson95": [
+            0.8388748419471806,
+            1.0
+          ],
+          "trunc_rate": 0.0,
+          "parse_fail_rate": 0.0,
+          "mean_tokens": 170.15
+        },
+        "gap": 0.25
+      },
+      {
+        "d": 5,
+        "DA": {
+          "n": 20,
+          "correct": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            0.0,
+            0.16112515805281938
+          ],
+          "trunc_rate": 0.0,
+          "parse_fail_rate": 0.0,
+          "mean_tokens": 6.9
+        },
+        "CoT": {
+          "n": 20,
+          "correct": 17,
+          "accuracy": 0.85,
+          "wilson95": [
+            0.6395811352592431,
+            0.9476312541037835
+          ],
+          "trunc_rate": 0.0,
+          "parse_fail_rate": 0.0,
+          "mean_tokens": 324.7
+        },
+        "gap": 0.85
+      },
+      {
+        "d": 10,
+        "DA": {
+          "n": 20,
+          "correct": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            0.0,
+            0.16112515805281938
+          ],
+          "trunc_rate": 0.0,
+          "parse_fail_rate": 0.0,
+          "mean_tokens": 7.0
+        },
+        "CoT": {
+          "n": 20,
+          "correct": 20,
+          "accuracy": 1.0,
+          "wilson95": [
+            0.8388748419471806,
+            1.0
+          ],
+          "trunc_rate": 0.0,
+          "parse_fail_rate": 0.0,
+          "mean_tokens": 588.0
+        },
+        "gap": 1.0
+      },
+      {
+        "d": 15,
+        "DA": {
+          "n": 20,
+          "correct": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            0.0,
+            0.16112515805281938
+          ],
+          "trunc_rate": 0.0,
+          "parse_fail_rate": 0.0,
+          "mean_tokens": 6.85
+        },
+        "CoT": {
+          "n": 20,
+          "correct": 18,
+          "accuracy": 0.9,
+          "wilson95": [
+            0.6989663547715128,
+            0.9721335187862319
+          ],
+          "trunc_rate": 0.0,
+          "parse_fail_rate": 0.0,
+          "mean_tokens": 740.25
+        },
+        "gap": 0.9
+      },
+      {
+        "d": 20,
+        "DA": {
+          "n": 20,
+          "correct": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            0.0,
+            0.16112515805281938
+          ],
+          "trunc_rate": 0.0,
+          "parse_fail_rate": 0.0,
+          "mean_tokens": 6.95
+        },
+        "CoT": {
+          "n": 20,
+          "correct": 14,
+          "accuracy": 0.7,
+          "wilson95": [
+            0.4810271816464765,
+            0.8545227551323956
+          ],
+          "trunc_rate": 0.0,
+          "parse_fail_rate": 0.0,
+          "mean_tokens": 1013.6
+        },
+        "gap": 0.7
+      }
+    ],
+    "ca_accuracy_trends": {
+      "DA": {
+        "z": -5.688412655217475,
+        "p_two_sided": 1.2822566798018695e-08,
+        "testable": true
+      },
+      "CoT": {
+        "z": -2.4837602739468063,
+        "p_two_sided": 0.013000329240114248,
+        "testable": true
+      }
+    },
+    "gap20_minus_gap1": 0.44999999999999996,
+    "gap_delta_paired_bootstrap95": [
+      0.15000000000000002,
+      0.7000000000000001
+    ],
+    "gap_nondecreasing_observed": false,
+    "checks": {
+      "cot20_hard_target": true,
+      "da20_target": true,
+      "gap_growth_target": true,
+      "cot_decreasing_ca_p_lt_001": false
+    },
+    "evidence_digest": "2faa1a59276e6bc913f96271c9a7060434d740728eb15fae4bcdb24dc62f7703",
+    "manual_review_required": true
+  },
+  "cot_errors": [
+    {
+      "id": "d32fbdbe902da81d8c6955e2db08d3220967fafd7e34245a5d97d2aee776aa57",
+      "qid": "0f68c65806bc7ea5c3cd7cec1c37b9b4183eb74d10b2347e0ecab4f93f9d4014",
+      "d": 5,
+      "i": 12,
+      "gold": "29",
+      "predicted": [
+        17
+      ],
+      "matching_endpoint_offset": 1,
+      "note": "端点匹配只是线索；需逐条读原文确认实际执行步数，不修改原判分。"
+    },
+    {
+      "id": "516bab7a0dda6c2e7256f0c9dd6d10aebc88023891223b9cf8c0302714e458f9",
+      "qid": "4c61606f275d3c106924d63a985db8342ec62532c8556a006ac0aa766be14299",
+      "d": 5,
+      "i": 16,
+      "gold": "9",
+      "predicted": [
+        39
+      ],
+      "matching_endpoint_offset": 1,
+      "note": "端点匹配只是线索；需逐条读原文确认实际执行步数，不修改原判分。"
+    },
+    {
+      "id": "06c1cde3fcc8232878b8753b8fafed08996874b6da314c2f25fe872a63442209",
+      "qid": "43bf9683d6676a92cda9167b5e3c377bcc6d3127b534cc6531a2c07a36fc33c0",
+      "d": 5,
+      "i": 19,
+      "gold": "3",
+      "predicted": [
+        25
+      ],
+      "matching_endpoint_offset": 1,
+      "note": "端点匹配只是线索；需逐条读原文确认实际执行步数，不修改原判分。"
+    },
+    {
+      "id": "728619b6af2b1423a064195cbddefbbdc15a1153c4ae30fe01e5bc537c99f9bd",
+      "qid": "531de4f6f4e82ddef6b9d3cc0ce7047e5a77f8aac18e34726d4eaec94c5cf6df",
+      "d": 15,
+      "i": 3,
+      "gold": "17",
+      "predicted": [
+        9
+      ],
+      "matching_endpoint_offset": -1,
+      "note": "端点匹配只是线索；需逐条读原文确认实际执行步数，不修改原判分。"
+    },
+    {
+      "id": "86f46e2e0d23cfd5639149fa7cfc370ebbefa4fd14732c22e80fc8740673a6c7",
+      "qid": "48d402c4a80daa6f0b3f2407c359df93ed9c2eaccd267f8c0c7ec09bb646a280",
+      "d": 15,
+      "i": 15,
+      "gold": "14",
+      "predicted": [
+        0
+      ],
+      "matching_endpoint_offset": -1,
+      "note": "端点匹配只是线索；需逐条读原文确认实际执行步数，不修改原判分。"
+    },
+    {
+      "id": "7bf2368e579e96eeb7fcf5ab99438ab59df08beefaf79d7c2195d483a15366e7",
+      "qid": "40a2ac17903a936edbe2c159a801c809b3fcc2f19c7e64e39fa5ac0a60e50bfe",
+      "d": 20,
+      "i": 1,
+      "gold": "38",
+      "predicted": [
+        27
+      ],
+      "matching_endpoint_offset": 1,
+      "note": "端点匹配只是线索；需逐条读原文确认实际执行步数，不修改原判分。"
+    },
+    {
+      "id": "81085c788edb51372831d9e9e3237023b9dceb9330483d217dd1cba53667750d",
+      "qid": "942b24fef1c83766fd02d728866f96a86fecd640980d286397b3902b9d12211b",
+      "d": 20,
+      "i": 9,
+      "gold": "3",
+      "predicted": [
+        24
+      ],
+      "matching_endpoint_offset": 1,
+      "note": "端点匹配只是线索；需逐条读原文确认实际执行步数，不修改原判分。"
+    },
+    {
+      "id": "4616b75aaf70adc7e6d6e1b9c2ddc79aafc7ddf7c86c2829d3c11a56797f46a3",
+      "qid": "c20ed41a671b31a4c9318c0e1ae0897a9a56891c6fa6831f23fc610d4855c391",
+      "d": 20,
+      "i": 14,
+      "gold": "20",
+      "predicted": [
+        39
+      ],
+      "matching_endpoint_offset": 1,
+      "note": "端点匹配只是线索；需逐条读原文确认实际执行步数，不修改原判分。"
+    },
+    {
+      "id": "fa968df074fad27fabbf8e2327c8ab313acd767eb72a2d6e2831f83a0c017c58",
+      "qid": "f91d7efa94ef3375f22c6469856612e1139ebacb44b9280ad17ac623191da35c",
+      "d": 20,
+      "i": 16,
+      "gold": "10",
+      "predicted": [
+        38
+      ],
+      "matching_endpoint_offset": 1,
+      "note": "端点匹配只是线索；需逐条读原文确认实际执行步数，不修改原判分。"
+    },
+    {
+      "id": "300734190d713e0970751dc6d79980812101a1dc3a0a2ab6a426c095d4e61702",
+      "qid": "76f714fe1f7ebbacd1587168cac57611972f6ec0bac8ad6dcf71486d3876f1cb",
+      "d": 20,
+      "i": 17,
+      "gold": "18",
+      "predicted": [
+        34
+      ],
+      "matching_endpoint_offset": 1,
+      "note": "端点匹配只是线索；需逐条读原文确认实际执行步数，不修改原判分。"
+    },
+    {
+      "id": "4578f596e454eabd2432c35df7023625601f6b10d47d0e0fe83eae99a62cc1cc",
+      "qid": "77ca48803d4ebdb4befb38908c65942d39fe698ccce2c44062b6258afa0e0e22",
+      "d": 20,
+      "i": 18,
+      "gold": "5",
+      "predicted": [
+        20
+      ],
+      "matching_endpoint_offset": 1,
+      "note": "端点匹配只是线索；需逐条读原文确认实际执行步数，不修改原判分。"
+    }
+  ],
+  "formal_generation_approved": false,
+  "status": "awaiting_human_review",
+  "proposed_formal_data": {
+    "serial": {
+      "d": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "n_per_cell": 100,
+      "rows": 2000
+    },
+    "parallel": {
+      "w": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "n_per_cell": 100,
+      "rows": 1000,
+      "chain_lengths": "[1,2,...,2]",
+      "W": "2w-1",
+      "max_d": 2
+    },
+    "split": "formal",
+    "calibration_overlap_allowed": false
+  },
+  "limitations": [
+    "CoT CA 双侧 p=0.013 未达 0.01，曲线和 gap 非单调。",
+    "CoT(20)=14/20，Wilson 95% 区间宽，不能当作总体已落在目标窗口。",
+    "必须检查少走/多走一步是否主导梯度，不能将步数控制直接归为查表能力下降。",
+    "并行版输出更多答案；相同 W 不等于所有成本相同。",
+    "正式题生成完成不代表正式全矩阵已测量。"
+  ],
+  "source_notebook_commit": "4e65653",
+  "raw_archive_commit": "ae03c89",
+  "source_result_sha256": "8a196569be6cc486aae8f51a29e32ab5a408aff54d6712c6ff9d20467a63b9a1",
+  "assistant_trace_review": {
+    "scope": "逐条阅读全部 11 条 CoT 错误原文；这是助手审查，不是人工批准",
+    "extra_one_step": 9,
+    "missing_one_step": 2,
+    "observed_lookup_transition_errors_in_these_11": 0,
+    "interpretation": "错误主要表现为停止步数偏一，不等同于证明查表转移能力随深度下降。"
+  },
+  "human_review": {
+    "approved": false,
+    "reviewer": null,
+    "note": null
+  }
+}
