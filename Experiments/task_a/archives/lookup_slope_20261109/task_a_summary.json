@@ -1,0 +1,226 @@
+{
+  "version": "pointer_numeric_v1",
+  "candidate": "pointer40_lookup",
+  "config": {
+    "name": "pointer40_lookup",
+    "table_size": 40,
+    "index_offset": 0,
+    "operation": "lookup",
+    "shuffle_rows": false,
+    "family": "pointer_numeric"
+  },
+  "run_meta": {
+    "tier": "B",
+    "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+    "model_commit": "cdbee75f17c01a7cc42f958dc650907174af0554",
+    "requested_model_revision": null,
+    "revision_kind": "hub_commit",
+    "local_revision_label": null,
+    "loading": {
+      "model": "Qwen/Qwen3-4B-Instruct-2507",
+      "dtype": "half",
+      "gpu_memory_utilization": 0.8,
+      "max_model_len": 8192,
+      "max_num_seqs": 1,
+      "enforce_eager": true,
+      "revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+      "tokenizer_revision": "cdbee75f17c01a7cc42f958dc650907174af0554"
+    },
+    "chat_kwargs": {},
+    "gpu": "Tesla T4",
+    "top_k_passed": false,
+    "packages": {
+      "vllm": "0.33.0",
+      "torch": "2.14.0",
+      "transformers": "5.20.2",
+      "datasets": "4.8.5",
+      "huggingface_hub": "1.33.0"
+    }
+  },
+  "probe": {
+    "n": 100,
+    "correct": 87,
+    "p1": 0.87,
+    "wilson95": [
+      0.7901964855992357,
+      0.9224283257275948
+    ],
+    "predicted_cot20_not_measured": 0.061714192718529605,
+    "in_probe_window": false,
+    "in_da1_descriptive_target": true,
+    "action": "偏低，微调配置后重新探针",
+    "parse_fail_rate": 0.0,
+    "trunc_rate": 0.0
+  },
+  "slope": {
+    "table": [
+      {
+        "d": 1,
+        "DA": {
+          "n": 20,
+          "correct": 15,
+          "accuracy": 0.75,
+          "wilson95": [
+            0.531299122381256,
+            0.8881382985923343
+          ],
+          "trunc_rate": 0.0,
+          "parse_fail_rate": 0.0,
+          "mean_tokens": 6.85
+        },
+        "CoT": {
+          "n": 20,
+          "correct": 20,
+          "accuracy": 1.0,
+          "wilson95": [
+            0.8388748419471806,
+            1.0
+          ],
+          "trunc_rate": 0.0,
+          "parse_fail_rate": 0.0,
+          "mean_tokens": 170.15
+        },
+        "gap": 0.25
+      },
+      {
+        "d": 5,
+        "DA": {
+          "n": 20,
+          "correct": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            0.0,
+            0.16112515805281938
+          ],
+          "trunc_rate": 0.0,
+          "parse_fail_rate": 0.0,
+          "mean_tokens": 6.9
+        },
+        "CoT": {
+          "n": 20,
+          "correct": 17,
+          "accuracy": 0.85,
+          "wilson95": [
+            0.6395811352592431,
+            0.9476312541037835
+          ],
+          "trunc_rate": 0.0,
+          "parse_fail_rate": 0.0,
+          "mean_tokens": 324.7
+        },
+        "gap": 0.85
+      },
+      {
+        "d": 10,
+        "DA": {
+          "n": 20,
+          "correct": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            0.0,
+            0.16112515805281938
+          ],
+          "trunc_rate": 0.0,
+          "parse_fail_rate": 0.0,
+          "mean_tokens": 7.0
+        },
+        "CoT": {
+          "n": 20,
+          "correct": 20,
+          "accuracy": 1.0,
+          "wilson95": [
+            0.8388748419471806,
+            1.0
+          ],
+          "trunc_rate": 0.0,
+          "parse_fail_rate": 0.0,
+          "mean_tokens": 588.0
+        },
+        "gap": 1.0
+      },
+      {
+        "d": 15,
+        "DA": {
+          "n": 20,
+          "correct": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            0.0,
+            0.16112515805281938
+          ],
+          "trunc_rate": 0.0,
+          "parse_fail_rate": 0.0,
+          "mean_tokens": 6.85
+        },
+        "CoT": {
+          "n": 20,
+          "correct": 18,
+          "accuracy": 0.9,
+          "wilson95": [
+            0.6989663547715128,
+            0.9721335187862319
+          ],
+          "trunc_rate": 0.0,
+          "parse_fail_rate": 0.0,
+          "mean_tokens": 740.25
+        },
+        "gap": 0.9
+      },
+      {
+        "d": 20,
+        "DA": {
+          "n": 20,
+          "correct": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            0.0,
+            0.16112515805281938
+          ],
+          "trunc_rate": 0.0,
+          "parse_fail_rate": 0.0,
+          "mean_tokens": 6.95
+        },
+        "CoT": {
+          "n": 20,
+          "correct": 14,
+          "accuracy": 0.7,
+          "wilson95": [
+            0.4810271816464765,
+            0.8545227551323956
+          ],
+          "trunc_rate": 0.0,
+          "parse_fail_rate": 0.0,
+          "mean_tokens": 1013.6
+        },
+        "gap": 0.7
+      }
+    ],
+    "ca_accuracy_trends": {
+      "DA": {
+        "z": -5.688412655217475,
+        "p_two_sided": 1.2822566798018695e-08,
+        "testable": true
+      },
+      "CoT": {
+        "z": -2.4837602739468063,
+        "p_two_sided": 0.013000329240114248,
+        "testable": true
+      }
+    },
+    "gap20_minus_gap1": 0.44999999999999996,
+    "gap_delta_paired_bootstrap95": [
+      0.15000000000000002,
+      0.7000000000000001
+    ],
+    "gap_nondecreasing_observed": false,
+    "checks": {
+      "cot20_hard_target": true,
+      "da20_target": true,
+      "gap_growth_target": true,
+      "cot_decreasing_ca_p_lt_001": false
+    },
+    "evidence_digest": "2faa1a59276e6bc913f96271c9a7060434d740728eb15fae4bcdb24dc62f7703",
+    "manual_review_required": true
+  },
+  "probe_override_reason": "lookup 的真实 DA(1)=87/100，位于 task.md A.0 的 0.80–0.95 描述目标内；0.955–0.986 仅由把 DA 单步率当 CoT 独立逐步率的启发式推导而来，不构成 CoT(20) 实测。先做一次独立 200 条斜率直接检验唯一硬门槛；本例外不批准正式生成。"
+}
