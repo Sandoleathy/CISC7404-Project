@@ -1,0 +1,792 @@
+{
+  "source_commit": "d2b57a473e06d63e5cad95c193eeae8d9cf42f0d",
+  "uploaded_result_sha256": "ef295e30b21cd10c5f89f77514274b8951fcc7e11e618adf99fea38eea069d0a",
+  "n_records": 200,
+  "checks": {
+    "manifest": true,
+    "question_reconstruction": true,
+    "independent_gold": true,
+    "job_fingerprints": true,
+    "rescoring": true,
+    "input_token_hashes_and_lengths": true,
+    "summary": true
+  },
+  "results": {
+    "pointer40_delta": {
+      "probe": {
+        "n": 100,
+        "correct": 11,
+        "p1": 0.11,
+        "wilson95": [
+          0.06254196357064568,
+          0.18631296503080313
+        ],
+        "predicted_cot20_not_measured": 6.727499949325601e-20,
+        "in_probe_window": false,
+        "in_da1_descriptive_target": false,
+        "action": "弃用当前配置",
+        "parse_fail_rate": 0.0,
+        "trunc_rate": 0.0
+      },
+      "input_tokens_matched": 100,
+      "unchanged_initial_answers": 52,
+      "errors": [
+        {
+          "qid": "fc5117a891b0177df73daa02b572e8ae255cd77bdb41de15fbfb3209f9ba30cb",
+          "i": 0,
+          "start": 31,
+          "gold": "4",
+          "text": "####ANSWER=31"
+        },
+        {
+          "qid": "bb139fc2abd1d10b362d060e1a7ce8249be5495e37437774a9dab5718b67b3b2",
+          "i": 1,
+          "start": 1,
+          "gold": "12",
+          "text": "####ANSWER=11"
+        },
+        {
+          "qid": "df2d718ce5ff765e907caeedc03a76d1cbe9c692ef06722e33c66f6a6548cb64",
+          "i": 2,
+          "start": 11,
+          "gold": "2",
+          "text": "####ANSWER=11"
+        },
+        {
+          "qid": "1e39b087030de689ef74da738a361a51077be6726b41adb7af181db0210fccbc",
+          "i": 3,
+          "start": 20,
+          "gold": "1",
+          "text": "####ANSWER=20"
+        },
+        {
+          "qid": "ccafa685c17752ac87ba25c65931b8e3fd3b5edd0009a582e665143ff763ebda",
+          "i": 4,
+          "start": 8,
+          "gold": "23",
+          "text": "####ANSWER=15"
+        },
+        {
+          "qid": "78f8104049f231355d54890420c78990889561c2c6348a9dfeedbeb343ed263c",
+          "i": 5,
+          "start": 27,
+          "gold": "11",
+          "text": "####ANSWER=27"
+        },
+        {
+          "qid": "21fddf6c3cdc3d716f4c19300fe5fe2af2bb8d875e7bfa604c6f583309059a91",
+          "i": 6,
+          "start": 4,
+          "gold": "18",
+          "text": "####ANSWER=14"
+        },
+        {
+          "qid": "1fe71acd7e9b9a4e6a46bd594b725356360f6167576996e4f9a7fefd4ce25a27",
+          "i": 7,
+          "start": 16,
+          "gold": "39",
+          "text": "####ANSWER=23"
+        },
+        {
+          "qid": "e853d5680128183da54feb00d4e4e15b1d997d064c5bf93fc132355061264139",
+          "i": 8,
+          "start": 38,
+          "gold": "13",
+          "text": "####ANSWER=38"
+        },
+        {
+          "qid": "7c94fb78565b71448831dd23c4370b036e3f89cdaad9111ed7d837ef34c99ae3",
+          "i": 9,
+          "start": 33,
+          "gold": "23",
+          "text": "####ANSWER=37"
+        },
+        {
+          "qid": "ae6044f383fcfac2efb252848b5ffbbd03f1ea977306948f58bff7caca40f82f",
+          "i": 10,
+          "start": 24,
+          "gold": "19",
+          "text": "####ANSWER=29"
+        },
+        {
+          "qid": "0039d17ac3595314435c646844c57b1d99c82632baaca5684cb2c92fa0e08f3d",
+          "i": 12,
+          "start": 25,
+          "gold": "21",
+          "text": "####ANSWER=30"
+        },
+        {
+          "qid": "fa5548818f1e78327a77476ecc167eb6e01ddbab299fab28d4d9f913559d88fc",
+          "i": 13,
+          "start": 22,
+          "gold": "4",
+          "text": "####ANSWER=38"
+        },
+        {
+          "qid": "b85820e80207b9de084c923d77bc3ea64710143691b303a86cd816e40026bf2f",
+          "i": 15,
+          "start": 27,
+          "gold": "10",
+          "text": "####ANSWER=27"
+        },
+        {
+          "qid": "71e75dad45f6c3318267ddb07022f43a1909130e931c0bfd5af64a3f6e21657a",
+          "i": 16,
+          "start": 21,
+          "gold": "39",
+          "text": "####ANSWER=21"
+        },
+        {
+          "qid": "cb68fb1d803c85edd8fbdd79343734b64d3efd5f671d182f3fcc4cc11838638f",
+          "i": 17,
+          "start": 38,
+          "gold": "26",
+          "text": "####ANSWER=38"
+        },
+        {
+          "qid": "775f836bc96bed7aea8840729efcc27bf9bbfaec2ec1e487b94fba092fa90811",
+          "i": 18,
+          "start": 17,
+          "gold": "36",
+          "text": "####ANSWER=17"
+        },
+        {
+          "qid": "bc44ee3ca55c51f66e61a8979b7ba39e2f0072d69e6d9db091014fafb004c487",
+          "i": 19,
+          "start": 5,
+          "gold": "33",
+          "text": "####ANSWER=5"
+        },
+        {
+          "qid": "de3e1ab1a100fbd068e1d9f1e87b74877289ca871545ecb290cf07ea3a90e256",
+          "i": 20,
+          "start": 8,
+          "gold": "7",
+          "text": "####ANSWER=9"
+        },
+        {
+          "qid": "e455b1ee28b93717473087b2bd81cd2249e71d60186da24e6c5648ea57c48941",
+          "i": 21,
+          "start": 13,
+          "gold": "10",
+          "text": "####ANSWER=33"
+        },
+        {
+          "qid": "af5a3173e1bc411f2738f556c448a19bf0741b644d0944b04a6796e062291c91",
+          "i": 22,
+          "start": 15,
+          "gold": "36",
+          "text": "####ANSWER=21"
+        },
+        {
+          "qid": "62ccc5b04cc429407d323869ab6cd7f645b6a3474bb2e22f57146c5908be2c51",
+          "i": 23,
+          "start": 13,
+          "gold": "22",
+          "text": "####ANSWER=13"
+        },
+        {
+          "qid": "59b61594cf85661e19851ec05a2afb0d77a0f30e07d43b1beb8bb06fe3b0fca2",
+          "i": 25,
+          "start": 29,
+          "gold": "15",
+          "text": "####ANSWER=33"
+        },
+        {
+          "qid": "c7059f81ad253e560e36296b81968f3ff88bdae416efea9dc0dc2a6ce9587b55",
+          "i": 26,
+          "start": 33,
+          "gold": "16",
+          "text": "####ANSWER=34"
+        },
+        {
+          "qid": "df7f7cf969d80a32455d5d618f036574874b95ce83cac9f5b844e2bf840cf304",
+          "i": 27,
+          "start": 31,
+          "gold": "3",
+          "text": "####ANSWER=31"
+        },
+        {
+          "qid": "f7203a9a95b2c2a0902a42ca46c4df092d1973570c7bfe28716cb4544eab3412",
+          "i": 28,
+          "start": 6,
+          "gold": "14",
+          "text": "####ANSWER=8"
+        },
+        {
+          "qid": "1b317806426300d11c3a60ad2261b1777e6c2cef3499a2137d80499e8333e205",
+          "i": 29,
+          "start": 3,
+          "gold": "29",
+          "text": "####ANSWER=3"
+        },
+        {
+          "qid": "634ef52c22be8933ab50493bf9ba6381ff98f864a8e13744ca1d0c8a92add4af",
+          "i": 30,
+          "start": 17,
+          "gold": "39",
+          "text": "####ANSWER=17"
+        },
+        {
+          "qid": "6a411909954ca31c884294beb7d5e877ae5821e3361e8fdcee5d0231d49c6180",
+          "i": 31,
+          "start": 20,
+          "gold": "29",
+          "text": "####ANSWER=20"
+        },
+        {
+          "qid": "772cc834c0240e914fa2fa659e395845de6d5194a6b8997e535a264982e5cafe",
+          "i": 32,
+          "start": 32,
+          "gold": "37",
+          "text": "####ANSWER=32"
+        },
+        {
+          "qid": "fe9f3faa9f85ebde5841e5ba5c98e02539a7cf19a80548698911e196214c02e2",
+          "i": 33,
+          "start": 29,
+          "gold": "4",
+          "text": "####ANSWER=34"
+        },
+        {
+          "qid": "cbc8bf8e13dd50be14f856592f8ab2fddad3289d9920f83e18c0fade1372de15",
+          "i": 34,
+          "start": 5,
+          "gold": "2",
+          "text": "####ANSWER=5"
+        },
+        {
+          "qid": "4607875406825ac6b4b397769a23243d40c780ae7726e182fcd687a847e6afe2",
+          "i": 36,
+          "start": 13,
+          "gold": "32",
+          "text": "####ANSWER=13"
+        },
+        {
+          "qid": "72084970a5abd144183775010a7b4c39dc8a5a6254c5893c91a2123787ffa6d1",
+          "i": 37,
+          "start": 10,
+          "gold": "30",
+          "text": "####ANSWER=10"
+        },
+        {
+          "qid": "89a3a9f040f6ded1e69e9ec5f6f70b75b39fc6a4ab45ac8e297197cd33369c50",
+          "i": 38,
+          "start": 28,
+          "gold": "8",
+          "text": "####ANSWER=38"
+        },
+        {
+          "qid": "ab45a7986d5c9c7be052d8b26f15647a2527c6a3b203164c887c4e5220bf0077",
+          "i": 39,
+          "start": 35,
+          "gold": "17",
+          "text": "####ANSWER=36"
+        },
+        {
+          "qid": "254a49803f5a97c210a0a13deb8d0a0e1be65bd7a41f03f3a2595311c9d50883",
+          "i": 40,
+          "start": 17,
+          "gold": "32",
+          "text": "####ANSWER=17"
+        },
+        {
+          "qid": "a847c7b50a402ef2a27caa1b52df95843cd40c2225048e2e54becfc9a95397f7",
+          "i": 41,
+          "start": 36,
+          "gold": "33",
+          "text": "####ANSWER=36"
+        },
+        {
+          "qid": "2dc4df58b692656ea7f7f2375180a5324dfda51c398a771e083ada3d5ca0a10d",
+          "i": 42,
+          "start": 16,
+          "gold": "3",
+          "text": "####ANSWER=16"
+        },
+        {
+          "qid": "99250f68ebc2cd9b52d0c3fb96937aefd825158788cb601303299e04c34fad96",
+          "i": 43,
+          "start": 15,
+          "gold": "22",
+          "text": "####ANSWER=15"
+        },
+        {
+          "qid": "8a75aa697b591af027be02fdc6318c4f8c3a309e1acea2ce9e58ecf9e523c1c5",
+          "i": 44,
+          "start": 33,
+          "gold": "18",
+          "text": "####ANSWER=33"
+        },
+        {
+          "qid": "efd9ab08c512f9b250e9dfd361296a88602ee6fe67ce7a44332f9eaeded57592",
+          "i": 45,
+          "start": 29,
+          "gold": "3",
+          "text": "####ANSWER=37"
+        },
+        {
+          "qid": "f979729d1519e053cf336b3f13708d7c262fecd18f4ba0484504b7401082b7e9",
+          "i": 46,
+          "start": 19,
+          "gold": "8",
+          "text": "####ANSWER=19"
+        },
+        {
+          "qid": "4a9b5cc4855e72dd9704ba08e6351e85c0ad476390b4a1ab422d857e5cbdd9a2",
+          "i": 47,
+          "start": 2,
+          "gold": "0",
+          "text": "####ANSWER=37"
+        },
+        {
+          "qid": "5ffcbd2ddd17962fd694f067f7d0194e841634f6f68e4bf6bd4cc86f8229fef3",
+          "i": 48,
+          "start": 16,
+          "gold": "39",
+          "text": "####ANSWER=23"
+        },
+        {
+          "qid": "7c0aa5c6c3f35998e2d121befeb62cd22dabd987e15579eb460b5adcfd691461",
+          "i": 50,
+          "start": 30,
+          "gold": "15",
+          "text": "####ANSWER=30"
+        },
+        {
+          "qid": "6fd92f9a5cf4f4bd58980995e93b82a562964e490b9d2f302edd064d63739558",
+          "i": 51,
+          "start": 20,
+          "gold": "39",
+          "text": "####ANSWER=20"
+        },
+        {
+          "qid": "2ca4da6e7e318f4283ff8ce3d214bab344e548788623ddcb118e907362be2387",
+          "i": 52,
+          "start": 31,
+          "gold": "1",
+          "text": "####ANSWER=31"
+        },
+        {
+          "qid": "6c6a0795d1baa232931b77ef9ff1def49fa1f38ebccd97587026cfd3ed194a12",
+          "i": 53,
+          "start": 27,
+          "gold": "35",
+          "text": "####ANSWER=28"
+        },
+        {
+          "qid": "6321c20c041217580ff79edc7279ae7957a5f6348909ea9a75f96448ea0428c8",
+          "i": 55,
+          "start": 4,
+          "gold": "3",
+          "text": "####ANSWER=13"
+        },
+        {
+          "qid": "e3be718836b81df1cdd20c37c14d92a69ac44d94362b3b243b55b647dc9bd911",
+          "i": 56,
+          "start": 23,
+          "gold": "9",
+          "text": "####ANSWER=23"
+        },
+        {
+          "qid": "9a900f9748e6f7764924aa8c0bfb16e1220dd69ee2e85828defa3e2ff7f4f978",
+          "i": 57,
+          "start": 25,
+          "gold": "6",
+          "text": "####ANSWER=26"
+        },
+        {
+          "qid": "0b577d86bc7bbfde9994dfe0f202413a0e70132ba736c7b3b52d279ee5016b55",
+          "i": 58,
+          "start": 8,
+          "gold": "17",
+          "text": "####ANSWER=12"
+        },
+        {
+          "qid": "0ce5f835f97acc39353111177f8bfabb439c293ca1e3c781c32c4b52589b0da5",
+          "i": 59,
+          "start": 2,
+          "gold": "25",
+          "text": "####ANSWER=36"
+        },
+        {
+          "qid": "7037c525f3ebb1fb311415ee0443258a1779067a7a5995553330e70e431d19af",
+          "i": 60,
+          "start": 37,
+          "gold": "33",
+          "text": "####ANSWER=37"
+        },
+        {
+          "qid": "1e630b0283dba4ae9e24af15b46522ab1fb309f8c5e1f5ccdcffb2bf221d007a",
+          "i": 61,
+          "start": 12,
+          "gold": "25",
+          "text": "####ANSWER=13"
+        },
+        {
+          "qid": "7ec87ab8dcd2858e2f592e63320c33adc9bc6bd1291afa12b9aa7111807a8c84",
+          "i": 62,
+          "start": 28,
+          "gold": "16",
+          "text": "####ANSWER=28"
+        },
+        {
+          "qid": "16101a8fccab1cde3e7f93c415b006dcbf1966fbe410e64e8a9ea77d3bc6a86a",
+          "i": 63,
+          "start": 14,
+          "gold": "30",
+          "text": "####ANSWER=14"
+        },
+        {
+          "qid": "137fc2bd7831eaf3eae2bfb32cfc254e2420842e397a2b5ba858a2bb0b011680",
+          "i": 64,
+          "start": 32,
+          "gold": "16",
+          "text": "####ANSWER=32"
+        },
+        {
+          "qid": "48ce62a558b668337d6a4dc9956f5afea327efc5c9fc5390645f58d47c3d1ae4",
+          "i": 65,
+          "start": 35,
+          "gold": "9",
+          "text": "####ANSWER=35"
+        },
+        {
+          "qid": "092ac09cd8863e5880eafe14445603833ea98a86d24781034c0c9f220eb6e85a",
+          "i": 67,
+          "start": 20,
+          "gold": "35",
+          "text": "####ANSWER=20"
+        },
+        {
+          "qid": "6538ea80f65a8346e33286e449ccf004acd4b43b1ffa7f0c53f39cc19f3b6589",
+          "i": 68,
+          "start": 8,
+          "gold": "34",
+          "text": "####ANSWER=26"
+        },
+        {
+          "qid": "45b48b4ff54aa001aa75d51f4c0ced62cd737e9d289f34922a16232a393f4f72",
+          "i": 71,
+          "start": 7,
+          "gold": "14",
+          "text": "####ANSWER=7"
+        },
+        {
+          "qid": "4edaabb2f0c39c1916b7b89533357527362819989caf8808f140280cf0303d60",
+          "i": 72,
+          "start": 7,
+          "gold": "6",
+          "text": "####ANSWER=7"
+        },
+        {
+          "qid": "bc805255c8b6222d4c39184daf7d5fd4c62312db5682a117c3fccf4600731f59",
+          "i": 73,
+          "start": 10,
+          "gold": "23",
+          "text": "####ANSWER=13"
+        },
+        {
+          "qid": "c6388e5cc6762c0a92dc9c44da3f52808903fce2839f36054d265371d4def3e4",
+          "i": 74,
+          "start": 21,
+          "gold": "4",
+          "text": "####ANSWER=21"
+        },
+        {
+          "qid": "09fd42f19fcd9c160c140c3a2a0bc0a5e2df9a7a4cf2e6951cd8bbb767efaac0",
+          "i": 75,
+          "start": 6,
+          "gold": "33",
+          "text": "####ANSWER=6"
+        },
+        {
+          "qid": "70612cce9ed6d98a441d092c67ad2f49447a3e4b0009a561819ad56ade657daf",
+          "i": 76,
+          "start": 2,
+          "gold": "0",
+          "text": "####ANSWER=5"
+        },
+        {
+          "qid": "05a37d37c22fa547099901c7229536f57fee0d6c0c634a07491eba8ffaec45c2",
+          "i": 77,
+          "start": 16,
+          "gold": "7",
+          "text": "####ANSWER=16"
+        },
+        {
+          "qid": "c2f5cfb5560a05654351d125b0ae39c05d194087dce6ccdaf283e36030822577",
+          "i": 78,
+          "start": 20,
+          "gold": "10",
+          "text": "####ANSWER=20"
+        },
+        {
+          "qid": "c39930bf65072ee265ff01f1f5dc569fb065efa2bc72723c3e546a28bc822d88",
+          "i": 79,
+          "start": 39,
+          "gold": "5",
+          "text": "####ANSWER=39"
+        },
+        {
+          "qid": "f39885af84b0ad07281082b53ecf141ca03c1367ed2134b7fc89ff47af423bb3",
+          "i": 80,
+          "start": 38,
+          "gold": "22",
+          "text": "####ANSWER=38"
+        },
+        {
+          "qid": "38fe041f0d72bd768dd8ae728eb0c294a151187c3fa87dcad11d1f5d632d843b",
+          "i": 81,
+          "start": 6,
+          "gold": "39",
+          "text": "####ANSWER=6"
+        },
+        {
+          "qid": "c65c94e33748a423f313918b08cc3e6f75de661ac7d2f5d868119e0ef3de567e",
+          "i": 83,
+          "start": 9,
+          "gold": "39",
+          "text": "####ANSWER=30"
+        },
+        {
+          "qid": "2eef4952c01db92b6419fb7a3913760db1ca7196a1c340b6123d15e9290c793a",
+          "i": 84,
+          "start": 25,
+          "gold": "32",
+          "text": "####ANSWER=25"
+        },
+        {
+          "qid": "020297d4e524bdaf05860bd03ea8707ab7b5e65694d0b501c49d5d2655df4b63",
+          "i": 85,
+          "start": 10,
+          "gold": "23",
+          "text": "####ANSWER=13"
+        },
+        {
+          "qid": "8344123292856582b7a5364ef69b158bbe6a0c3742dd14ec004f126c203816e7",
+          "i": 86,
+          "start": 13,
+          "gold": "10",
+          "text": "####ANSWER=13"
+        },
+        {
+          "qid": "98249130b30cef89054ed533b8c3d16f01f200151dac9caefa720fdfc1655db7",
+          "i": 87,
+          "start": 13,
+          "gold": "7",
+          "text": "####ANSWER=13"
+        },
+        {
+          "qid": "c60b22ec919dcd41d1d2cc85bafc769c29f29295c1f703ff917cc7a6f5ad0a73",
+          "i": 88,
+          "start": 11,
+          "gold": "0",
+          "text": "####ANSWER=11"
+        },
+        {
+          "qid": "2ed4dde21c5d01669d1abe8d743146aa482cd8717c9c229cd048bfca837c62d1",
+          "i": 89,
+          "start": 22,
+          "gold": "26",
+          "text": "####ANSWER=23"
+        },
+        {
+          "qid": "4a1c25f681475c87afe28b62163a2653e62f2e461d0cd095c8c6ab75557cf9a4",
+          "i": 90,
+          "start": 23,
+          "gold": "1",
+          "text": "####ANSWER=23"
+        },
+        {
+          "qid": "3225836e0f8fc2c41247aa87c724f2657bd24f6314d3001beb77f21d15e8d7bb",
+          "i": 91,
+          "start": 34,
+          "gold": "0",
+          "text": "####ANSWER=31"
+        },
+        {
+          "qid": "e0cad773f48e8b07e0baa10f5fe06aa2236c21a73726ad9bd05a4f6dbcf36a19",
+          "i": 92,
+          "start": 10,
+          "gold": "32",
+          "text": "####ANSWER=22"
+        },
+        {
+          "qid": "d570afb6ca19b585dfac861a2f5cbfb71a686888ca6353c1bce499fbada29083",
+          "i": 93,
+          "start": 27,
+          "gold": "3",
+          "text": "####ANSWER=27"
+        },
+        {
+          "qid": "9a4957a0b05b67c2d557bc90336a95c4c145835e638eb96f6d27c14a792ac808",
+          "i": 94,
+          "start": 33,
+          "gold": "29",
+          "text": "####ANSWER=33"
+        },
+        {
+          "qid": "7d73a40c159444db80aa1ed6fa5a3da5174f20953caac45be357dfb618c42126",
+          "i": 95,
+          "start": 38,
+          "gold": "8",
+          "text": "####ANSWER=35"
+        },
+        {
+          "qid": "342d627d4a43b42e6b6f7214aec925847ef28d3afef650d88afa459a1fa507a5",
+          "i": 96,
+          "start": 35,
+          "gold": "26",
+          "text": "####ANSWER=35"
+        },
+        {
+          "qid": "f7a78143400fc5b64ba99117f2ed304d9ffd0b91b7a7289b3a273763a250115e",
+          "i": 98,
+          "start": 1,
+          "gold": "30",
+          "text": "####ANSWER=18"
+        },
+        {
+          "qid": "d21ddd6bf7d042406de8c23e42e7e16c402a3c2b859bbf75aeb656fcc68b972c",
+          "i": 99,
+          "start": 1,
+          "gold": "13",
+          "text": "####ANSWER=12"
+        }
+      ],
+      "start_0_to_9": {
+        "n": 23,
+        "correct": 2
+      },
+      "start_10_to_39": {
+        "n": 77,
+        "correct": 9
+      }
+    },
+    "pointer40_lookup": {
+      "probe": {
+        "n": 100,
+        "correct": 87,
+        "p1": 0.87,
+        "wilson95": [
+          0.7901964855992357,
+          0.9224283257275948
+        ],
+        "predicted_cot20_not_measured": 0.061714192718529605,
+        "in_probe_window": false,
+        "in_da1_descriptive_target": true,
+        "action": "偏低，微调配置后重新探针",
+        "parse_fail_rate": 0.0,
+        "trunc_rate": 0.0
+      },
+      "input_tokens_matched": 100,
+      "unchanged_initial_answers": 3,
+      "errors": [
+        {
+          "qid": "19930de1f83f3c8257dc1d9e213b3a141bb0e621468700d174465f0968d81dc0",
+          "i": 3,
+          "start": 8,
+          "gold": "17",
+          "text": "####ANSWER=34"
+        },
+        {
+          "qid": "9735c040f060b32119891181a1773884d308fdb208f6ab29ddc890b809affa38",
+          "i": 13,
+          "start": 3,
+          "gold": "10",
+          "text": "####ANSWER=17"
+        },
+        {
+          "qid": "bb6baef3f34a1aa3fb3f4b3f705dfaaa073a1ede4beaa659e04e3ff69c3df42d",
+          "i": 14,
+          "start": 25,
+          "gold": "2",
+          "text": "####ANSWER=25"
+        },
+        {
+          "qid": "cc471eec5d11e29acd4e2593eead1026275426e421557273094396f23ef9a72d",
+          "i": 22,
+          "start": 32,
+          "gold": "26",
+          "text": "####ANSWER=32"
+        },
+        {
+          "qid": "79f3db12bc723e3bca2fe4b8e12a42ebcad8f49af26c388ba5eda1ff76df30cc",
+          "i": 28,
+          "start": 31,
+          "gold": "2",
+          "text": "####ANSWER=29"
+        },
+        {
+          "qid": "1dc9a7d43204beaba2a2ce57dafa8512a3a6b11ecb43d1b7cd15eed2e25de66f",
+          "i": 34,
+          "start": 2,
+          "gold": "7",
+          "text": "####ANSWER=35"
+        },
+        {
+          "qid": "f1b5f3a3c9b9d632f474e1946d08c09491495be09530bde776b857e5a0d68efa",
+          "i": 60,
+          "start": 4,
+          "gold": "6",
+          "text": "####ANSWER=15"
+        },
+        {
+          "qid": "5379d09d6b9abdf69dc621969d761b21443b6cff79a12d7ef7d110a708ef5796",
+          "i": 64,
+          "start": 13,
+          "gold": "1",
+          "text": "####ANSWER=13"
+        },
+        {
+          "qid": "7fae19204deb5d74f1c0ec3d2553cc36397f2304820573979776b9157940d648",
+          "i": 72,
+          "start": 4,
+          "gold": "25",
+          "text": "####ANSWER=35"
+        },
+        {
+          "qid": "a0161d240dae1a1c48cfc4c5eaade04e658367b363d33891adc3d689c6f63e2c",
+          "i": 74,
+          "start": 2,
+          "gold": "27",
+          "text": "####ANSWER=17"
+        },
+        {
+          "qid": "09bab95879a0b9235ce9791d6b69ccda539286f35ce76311fd4be5d2e88bdd61",
+          "i": 77,
+          "start": 2,
+          "gold": "30",
+          "text": "####ANSWER=13"
+        },
+        {
+          "qid": "b58a984fdc1a4e156f3255855d32fd1c3804552e83fec2a3e3f6399992bacf03",
+          "i": 84,
+          "start": 2,
+          "gold": "38",
+          "text": "####ANSWER=14"
+        },
+        {
+          "qid": "4c2f041f036a781a07123bfda24c073d186a01279d1c01cf62362fd29e8476a7",
+          "i": 90,
+          "start": 2,
+          "gold": "34",
+          "text": "####ANSWER=38"
+        }
+      ],
+      "start_0_to_9": {
+        "n": 25,
+        "correct": 16
+      },
+      "start_10_to_39": {
+        "n": 75,
+        "correct": 71
+      }
+    }
+  },
+  "decision": "拒绝 delta 配置；lookup 的 DA(1)=0.87 在 A.0 描述目标内，p1**20 不是 CoT 成功率的有效估计。记录例外后仅做一次 200 条独立斜率实测，直接检验 CoT(20) 硬目标，不批准正式生成。",
+  "next_stage": "slope",
+  "candidate": "pointer40_lookup",
+  "formal_generation_approved": false
+}

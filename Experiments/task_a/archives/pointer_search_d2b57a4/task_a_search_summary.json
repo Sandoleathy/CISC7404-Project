@@ -1,0 +1,92 @@
+{
+  "version": "pointer_numeric_v1",
+  "stage": "search",
+  "run_meta": {
+    "tier": "B",
+    "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+    "model_commit": "cdbee75f17c01a7cc42f958dc650907174af0554",
+    "requested_model_revision": null,
+    "revision_kind": "hub_commit",
+    "local_revision_label": null,
+    "loading": {
+      "model": "Qwen/Qwen3-4B-Instruct-2507",
+      "dtype": "half",
+      "gpu_memory_utilization": 0.8,
+      "max_model_len": 8192,
+      "max_num_seqs": 1,
+      "enforce_eager": true,
+      "revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+      "tokenizer_revision": "cdbee75f17c01a7cc42f958dc650907174af0554"
+    },
+    "chat_kwargs": {},
+    "gpu": "Tesla T4",
+    "top_k_passed": false,
+    "packages": {
+      "vllm": "0.33.0",
+      "torch": "2.14.0",
+      "transformers": "5.20.2",
+      "datasets": "4.8.5",
+      "huggingface_hub": "1.33.0"
+    }
+  },
+  "start": "pointer40_delta",
+  "max_probe_configs": 3,
+  "trials": [
+    {
+      "candidate": "pointer40_delta",
+      "config": {
+        "name": "pointer40_delta",
+        "table_size": 40,
+        "index_offset": 0,
+        "operation": "delta",
+        "shuffle_rows": false,
+        "family": "pointer_numeric"
+      },
+      "probe": {
+        "n": 100,
+        "correct": 11,
+        "p1": 0.11,
+        "wilson95": [
+          0.06254196357064568,
+          0.18631296503080313
+        ],
+        "predicted_cot20_not_measured": 6.727499949325601e-20,
+        "in_probe_window": false,
+        "in_da1_descriptive_target": false,
+        "action": "弃用当前配置",
+        "parse_fail_rate": 0.0,
+        "trunc_rate": 0.0
+      }
+    },
+    {
+      "candidate": "pointer40_lookup",
+      "config": {
+        "name": "pointer40_lookup",
+        "table_size": 40,
+        "index_offset": 0,
+        "operation": "lookup",
+        "shuffle_rows": false,
+        "family": "pointer_numeric"
+      },
+      "probe": {
+        "n": 100,
+        "correct": 87,
+        "p1": 0.87,
+        "wilson95": [
+          0.7901964855992357,
+          0.9224283257275948
+        ],
+        "predicted_cot20_not_measured": 0.061714192718529605,
+        "in_probe_window": false,
+        "in_da1_descriptive_target": true,
+        "action": "偏低，微调配置后重新探针",
+        "parse_fail_rate": 0.0,
+        "trunc_rate": 0.0
+      }
+    }
+  ],
+  "selected": null,
+  "status": "no_candidate_in_window",
+  "formal_generation_approved": false,
+  "next_candidate": null
+}
