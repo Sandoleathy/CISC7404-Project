@@ -1,0 +1,93 @@
+{
+  "source_commit": "6cea939",
+  "result_sha256": "1548a704ab96ca921b1dfeb68221dbe6ffeedabde2e78557c740677ae8df2ea7",
+  "n_records": 64,
+  "n_unique_cases": 16,
+  "checks": {
+    "questions_match": true,
+    "job_ids_match": true,
+    "scores_match": true,
+    "input_tokens_match": true,
+    "rendered_prompts_contain_messages": true,
+    "summary_matches": true
+  },
+  "unique_case_results_by_kind": {
+    "arithmetic": {
+      "DA": {
+        "correct": 2,
+        "n": 2
+      },
+      "CoT": {
+        "correct": 2,
+        "n": 2
+      }
+    },
+    "compare": {
+      "DA": {
+        "correct": 2,
+        "n": 2
+      },
+      "CoT": {
+        "correct": 2,
+        "n": 2
+      }
+    },
+    "copy": {
+      "DA": {
+        "correct": 2,
+        "n": 2
+      },
+      "CoT": {
+        "correct": 2,
+        "n": 2
+      }
+    },
+    "encoding": {
+      "DA": {
+        "correct": 2,
+        "n": 2
+      },
+      "CoT": {
+        "correct": 2,
+        "n": 2
+      }
+    },
+    "read": {
+      "DA": {
+        "correct": 2,
+        "n": 2
+      },
+      "CoT": {
+        "correct": 2,
+        "n": 2
+      }
+    },
+    "register_encoded": {
+      "DA": {
+        "correct": 0,
+        "n": 4
+      },
+      "CoT": {
+        "correct": 4,
+        "n": 4
+      }
+    },
+    "register_pair": {
+      "DA": {
+        "correct": 1,
+        "n": 2
+      },
+      "CoT": {
+        "correct": 2,
+        "n": 2
+      }
+    }
+  },
+  "batch_pairs": 32,
+  "batch_final_answer_differences": 0,
+  "batch_text_differences": 3,
+  "interpretation": "本轮未发现输入错配或提交批量导致的答案差异；基础及独立编码控题均通过。寄存器组合任务在DA下严重失败，CoT可解，现有两配置不适合目标深度曲线。小样本不证明不存在任何后端问题。",
+  "decision": "按task.md转向编号数组指针；不对旧寄存器配置跑斜率，不生成正式数据。",
+  "next_stage": "search",
+  "formal_generation_approved": false
+}
