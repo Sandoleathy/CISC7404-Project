@@ -1097,3 +1097,16 @@ Task A 的定题、校准、人工审查、正式串行与配平并行数据、�
 
 1. 在 Colab（推荐 L4 GPU，或 T4 GPU）打开 `Experiments/task_a_math_word/experiment_task_a_word.ipynb` 运行默认 `RUN_STAGE = "search"`，下载自动导出的 `task_a_word_results.zip`。
 2. **提醒开发者人工审查**（`task.md` A.0）：核查各深度严格 DA 正确率、CoT 错误分类与原文样本，填写 `task_a_word_human_review.json` 后开启 `GENERATE_FINAL = True` 生成正式 3000 题（`synthesis_math_word_dataset.jsonl`）。
+
+## 4. 首次真实校准结果（2026-11-26，Colab L4，待人工审查）
+
+- 运行：`RUN_STAGE="search"`，`Qwen/Qwen3-4B` commit `1cfa9a7208912126459214e8b04321603b3df60c`，vLLM 0.34.0，
+  `bfloat16` / `gpu_memory_utilization=0.85` / `max_model_len=8192` / `max_num_seqs=32`（L4 显存更大，按第 3 节允许调整；采样参数未改）。
+- 原始 545 条入库 `Experiments/task_a_math_word/calib_v4_math_word.jsonl`（SHA256 `d9e47dd2…f292af3d23`），
+  上传 ZIP 与 Colab 提交 `919be1c` 内联 ZIP 逐字节相同；离线复核重建/求解/token/判分 545/545 一致，零截断零解析失败。
+- `word_int2_carry`：probe DA(1)=100/100；screen CoT(20)=13/25=52.0% → 斜率（每格 30 对）：
+  DA 100/86.7/33.3/3.3/0/0/0%，CoT 100/100/100/100/96.7/80.0/83.3%（d=1,2,3,5,10,15,20）。
+- gap 增长 +0.83（bootstrap CI [0.70, 0.97]），CA(CoT) p=4.19e-06，DA(20)=0 —— 达标；
+  slope CoT(20)=0.833 高于 0.75 上界（screen 0.52，合并 38/55=0.691 仅作方差描述），DA(1)=1.00 高于描述上界 0.95。
+- 结论：cursor 分支 DA 断崖问题已解决（d=2 由 8% 变为 86.7%）。是否接受 `word_int2_carry` 或升档到
+  `word_int3_carry` / `word_dec1_carry` 交由开发者人工审查，详见 `Experiments/task_a_math_word/task_a_word_review.md`。

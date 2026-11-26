@@ -1,0 +1,21 @@
+{
+  "word_int2_carry": {
+    "config_name": "word_int2_carry",
+    "n": 100,
+    "strict_correct": 100,
+    "strict_p1": 1.0,
+    "strict_wilson95": [
+      0.963,
+      1.0
+    ],
+    "overall_correct": 100,
+    "overall_p1": 1.0,
+    "da_leak_rate": 0.0,
+    "echo_initial_rate": 0.0,
+    "parse_fail_rate": 0.0,
+    "trunc_rate": 0.0,
+    "mean_tokens": 3.28,
+    "in_da1_target_80_98": false,
+    "in_heuristic_p1_window": false
+  }
+}
