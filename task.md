@@ -23,6 +23,9 @@
 > 已记录步数控制主导错误、非单调曲线、区间较宽及并行读出混杂，不声称所有数值指标通过。
 > 审核见 `task_a_human_review.json`，验证见 `task_a_final_validation.json`，完整说明见 `task_a_lookup_review.md`。
 > 正式全矩阵推理、Task B 和合并复核属于后续任务，本轮没有执行。
+>
+> 2026-11-26（`taskA-gemini` 分支更新）：**回归自然语言数学加减法应用题（`math_word_v1`），统一采用 `Qwen/Qwen3-4B`**。
+> 入口：`Experiments/task_a_math_word/experiment_task_a_word.ipynb`。针对 `cursor` 分支条件分支题 `DA` 正确率偏低问题，去除单步 `if/else` 阈值判断与干扰句负荷，采用纯自然语言串行加减法 + 5 档同构难度阶梯 + 对称 2-shot + `DA` 续写 `"#### "` 预填（`enable_thinking=False`）。待在 Colab GPU 完成真实校准与人工审查后再生成正式 3000 题。
 
 ### p1 定义
 单步正确率：串行任务里，模型在 d=1 题（一次加法 / 一次寄存器更新 / 一次指针转移）上的答案正确率；

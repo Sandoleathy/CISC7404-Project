@@ -1054,3 +1054,46 @@ notebook 保留默认 offline / GENERATE_FINAL=False，避免重复推理或写�
 
 Task A 的定题、校准、人工审查、正式串行与配平并行数据、文档回填均完成；接受的指标例外继续保留。
 本次仅生成并验证题集，没有执行正式全矩阵推理、Task B 或合并复核。
+
+---
+
+# Task A（`taskA-gemini`）：回归自然语言数学加减法应用题与 `Qwen/Qwen3-4B` 协议（2026-11-26，待真实校准）
+
+## 1. 为什么重新设计（对 `cursor` 分支 DA 低正确率的诊断）
+
+对照远端 `cursor/task-a-wordproblem-c8b4` 分支的历次校准记录：
+- 第一轮（`Solve silently...` 零样本）：`d=1,2,3,5,10,15,20` 的 `DA` 仅 `0.10 / 0.03 / 0.01 / 0.00 / 0.00 / 0.01 / 0.01`（大量原样抄回初值）；
+- `DA v2`（去掉 `Solve silently`，无预填，`max_tokens=64`）：`d=1` 有 `54/100` 泄漏为被截断的 CoT，严格 `####` 正确率仅 `36/100`；
+- `DA v3`（4-shot + `#### ` 预填 + `stop=['\n']`，`Instruct-2507`）：泄漏与截断归零，但严格 `DA` 在 `d=1/2/3/5/20` 仍只有 `0.70 / 0.08 / 0.03 / 0.00 / 0.02`。
+
+根因不在格式，而在**单步复合逻辑负荷过重**：`cond_wordproblem_v1` 每一步同时包含阈值比较（`v > T`）、正反极性随机翻转（`more than` / `fewer than`）、分支路由（从 `a, b` 选一）与两位数进退位加减，且 `p_distractor=1.0` 强制塞入无关数字句，导致 `d=1` 题干即有 **5 个数字**、`d=2` 达 **8 个数字**，模型单次前向在 `d=2` 即跌穿地板。同时，纯自然语言加减法中正负号编码在英文动词语义里，固定层数的 4B 模型在零中间 token 的单次前向中并不能对 10~20 句英文事件做并行精确求和，无需靠每句 `if/else` 人为锁死 `DA`。
+
+## 2. `math_word_v1` 新设计与 `Qwen/Qwen3-4B` 对称评测协议
+
+入口 Notebook：`Experiments/task_a_math_word/experiment_task_a_word.ipynb`（说明见 `Experiments/task_a_math_word/README.md`）。
+
+1. **纯自然语言串行加减法应用题**：
+   - 三类自然情境：日常物品计数（`count`，整数）、计量物资（`measure`，一位小数 `kg/liters/meters`）、零花钱收支（`money`，两位小数 `$`）。
+   - 每一步恰好对应一个无歧义增减事件、仅含 **1 个变化量数字**；无 `if/else` 阈值分支、无无关干扰句、无乘除与取模、无 `min/max` 聚合。
+   - 5 档由易到难的同构候选阶梯：`word_int1_easy` → `word_int2_carry`（默认搜索起点） → `word_int3_carry` → `word_dec1_carry` → `word_dec2_money`。
+   - 反捷径硬约束：静态模板禁用一切阿拉伯数字与英文数词；一位/两位小数全程以 `10` / `100` 倍整数精确计算；最终答案绝不等于初值、绝不出现在题面数字中；`d ≥ 2` 强制混合加减，答案绝不等于「全加」或「全减」，且禁止相邻 `2~3` 步局部抵消；`*_carry` 配置按十进制 Kummer 数位和定理强制每步发生真实进位或退位。
+2. **统一使用 `Qwen/Qwen3-4B`（非 Base、非 Instruct-2507）**：
+   - 对 `DA` 与 `CoT` 统一显式设置 `enable_thinking=False`（闭合空 `<think>\n\n</think>\n\n`），使推理链完全由提示词控制，与全项目 GSM8K / IFEval 模型线对齐。
+   - **DA / CoT 对称 2-shot 示例**：共享来自专用 `fewshot` 划分的 2 道独立题（串行为 1 加 1 减 `d=1` 题；并行为 `w=2` 题）。
+   - **DA 续写预填**：使用 `continue_final_message=True` 在 `#### ` 后直接续写答案，不做 `stop=['\n']` 硬截断；主表以**严格单行正确率 `strict_da_ok`** 为核心指标，同时报告 `answer_ok`、`da_leak_rate` 与 `echo_initial_rate`。
+3. **双向自适应搜索 + 7 深度斜率校准**：
+   - `RUN_STAGE = "search"` 从 `word_int2_carry` 起步：若 `DA(1) < 0.80` 自动下探 `word_int1_easy`；若 `DA(1) ≥ 0.80` 则实测 `d=20 × 25 × CoT` 快速锚点，偏易时沿阶梯上探（`int3 → dec1 → dec2`），选定候选后自动在独立 `slope` 划分上跑 **`d ∈ {1, 2, 3, 5, 10, 15, 20}` × 30 题 × (DA, CoT) = 420 次推理**（新增 `d=2, 3` 以直接刻画低深度 DA 衰减斜率）。
+   - 硬件加载自动适配 Colab L4/A100（`bfloat16`, `max_num_seqs=32`）与 Colab T4（`half`, `max_num_seqs=1`, `enforce_eager=True`），加载前通过 `HfApi().model_info()` 锁定 `Qwen/Qwen3-4B` 40 位 commit SHA。
+
+## 3. 离线验证与踩坑记录
+
+- 独立英文段落解析求解器（仅从英文题干 `q` 用正则和动词短语还原初值与每步加减符号，不读内部 `ops`）对 5 档候选共 7,800 道串/并行题全量复算通过，照抄初值、照抄题面数字、全加、全减捷径命中率均为 `0.00%`。
+- 用官方 `qwen3_chat_template.jinja` 实测校验 5 档串/并行题渲染结果，确认 `DA` 严格以 `<|im_start|>assistant\n<think>\n\n</think>\n\n#### ` 结尾，`CoT` 严格以 `<|im_start|>assistant\n<think>\n\n</think>\n\n` 结尾。
+- 在临时目录用 Mock 引擎完整回归双向搜索、7 深度斜率汇总、断点续跑、曲线绘图、ZIP 打包与人工审核门控；当前环境无 GPU，未伪造真实模型校准结果，正式 3000 题默认关闭生成。
+
+**问题 → 原因 → 解决方法：** 严格单行判分自检发现 `"#### 75"` 被 `re.match(r"^####\b", ln)` 漏判 → `#` 与空格均非单词字符（`\w`），两者之间不存在正则词边界 `\b` → 改为 `ln.startswith("####")`，同时将 `da_arith` 改为检查整条恢复文本中是否出现二元算术/等号表达式，防止在预填 `#### ` 同一行续写算式时漏检。
+
+## 4. 下一步（需在 Colab GPU 运行并人工审查）
+
+1. 在 Colab（推荐 L4 GPU，或 T4 GPU）打开 `Experiments/task_a_math_word/experiment_task_a_word.ipynb` 运行默认 `RUN_STAGE = "search"`，下载自动导出的 `task_a_word_results.zip`。
+2. **提醒开发者人工审查**（`task.md` A.0）：核查各深度严格 DA 正确率、CoT 错误分类与原文样本，填写 `task_a_word_human_review.json` 后开启 `GENERATE_FINAL = True` 生成正式 3000 题（`synthesis_math_word_dataset.jsonl`）。

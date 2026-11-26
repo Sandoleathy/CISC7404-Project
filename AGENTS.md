@@ -89,9 +89,10 @@ jupyter server --ServerApp.allow_remote_access True   # 需要远程访问时
 │   └── calibration_v2_summary_tierB.csv     校准 v2 聚合表（未提交）
 ├── gsm8k_dataset/                gitignore；由 notebook 生成
 ├── ifeval/                       gitignore；由 notebook 生成
-├── models/                       gitignore；Qwen3-1.7B 已下载；4B 权重在 Colab，本地不下载
+├── models/                       gitignore；Qwen3-1.7B / Qwen3-4B 本地目录（Colab 从 HF 拉取）
 └── Thoughts/                     零散想法（Pointer_Track.md）
 ```
+（注：`taskA-gemini` 分支新增 `Experiments/task_a_math_word/experiment_task_a_word.ipynb`，回归自然语言数学加减法应用题。）
 
 ---
 
@@ -105,13 +106,10 @@ jupyter server --ServerApp.allow_remote_access True   # 需要远程访问时
 | 档位 | 模型 | 本地目录 | 用途 | 状态 |
 |---|---|---|---|---|
 | A | Qwen3-1.7B | `models/Qwen3-1.7B` | pilot、链路自测、回归 | 已下载，已跑通 |
+| B (`taskA-gemini`) | `Qwen/Qwen3-4B` | `models/Qwen3-4B` | 自然语言数学加减应用题校准与主实验（与 GSM8K / IFEval 线统一） | 待 Colab 校准 |
 
-- HF repo id 是 `Qwen/Qwen3-4B-Instruct-2507`。**不要**换成 `Qwen/Qwen3-4B`（base）或
-  `Qwen/Qwen3-4B-Thinking-2507`（thinking-only）：base 版没有对齐好的对话能力，thinking 版会
-  强制自带思考块，两者都破坏「CoT 由 prompt 控制」的设计。
-- 档位 B 是**非 thinking 模型**：`tokenizer_config.json` 里的 chat template **没有**
-  `enable_thinking` 分支，generation prompt 就是 `<|im_start|>assistant\n`。
-  因此对档位 B **不要**传 `chat_template_kwargs={"enable_thinking": ...}`。
+- **`taskA-gemini` 分支模型约定**：按最新实验要求统一使用 **`Qwen/Qwen3-4B`**（2025-04 混合推理模型，**不是** `Qwen/Qwen3-4B-Base`，也**不是** `Qwen/Qwen3-4B-Instruct-2507`）。
+- 由于 `Qwen/Qwen3-4B` 的 chat template 带有 `<think>` 分支，为了遵守「DA / CoT 纯粹由提示词控制」，在 `task_a_math_word` 中对 `DA` 与 `CoT` 统一显式设置 `enable_thinking=False`（闭合空 `<think>\n\n</think>\n\n`），其中 `DA` 采用 `continue_final_message=True` 续写 `"#### "` 预填防止泄漏。（旧版 `Experiments/task_a/` 的历史归档仍对应 `Qwen/Qwen3-4B-Instruct-2507`，保留不改以供复核。）
 
 ### 3.2 档位 A 模板（Qwen3-1.7B，RTX3070能够运行，其他GPU不必一定遵守）
 
@@ -288,6 +286,14 @@ vLLM 0.33.0 的本次 Colab 运行中该字段为空，但模型本身已经加�
   `task_a_final_validation.json` 记录3000题全量复算、datasets回读、确定性重建、去重、全部600条校准隔离及W配平。
   `q` 才是模型题干，不能把 `trace` / `answers` / `ans` 等gold元数据传给模型。
   正式全矩阵推理、Task B 与合并复核未执行。
+
+### 5.6 Task A（`taskA-gemini`）：回归自然语言数学加减法应用题（`math_word_v1`，待 Colab 校准）
+
+- 入口：`Experiments/task_a_math_word/experiment_task_a_word.ipynb`（说明见同目录 `README.md`）。
+- 针对历史指针题 `DA` 在 `d≥5` 归零、以及 `cursor` 分支条件分支题 `DA` 正确率过低（`0.70 / 0.08 / 0.03`）的问题，回归**纯粹自然语言串行加减法应用题**（日常计数、一位小数计量、两位小数金额）：每一步仅一个无歧义增减事件、仅含 1 个变化量数字，无 `if/else` 阈值分支、无无关干扰句、无乘除取模、无 `min/max` 聚合。
+- 模型统一采用 **`Qwen/Qwen3-4B`**（非 Base、非 Instruct-2507），显式设 `enable_thinking=False`；`DA` 与 `CoT` 共享独立 `fewshot` 划分的对称 2-shot 示例，`DA` 用 `continue_final_message=True` 续写 `"#### "` 预填防止泄漏，以严格单行正确率 `strict_da_ok` 为主指标。
+- 内置 5 档同构难度阶梯（`word_int1_easy` → `word_int2_carry` → `word_int3_carry` → `word_dec1_carry` → `word_dec2_money`），`RUN_STAGE="search"` 支持双向自动搜索并在独立 `slope` 划分上测 `d ∈ {1, 2, 3, 5, 10, 15, 20} × 30 × (DA, CoT)`。
+- 正式 3000 题（`Experiments/data_generation/synthesis_math_word_dataset.jsonl`）默认关闭生成，须在 Colab 完成 `Qwen/Qwen3-4B` 真实校准并经开发者人工审查写入 `task_a_word_human_review.json` 后开启。
 
 ## 6. 待办与未定项
 
