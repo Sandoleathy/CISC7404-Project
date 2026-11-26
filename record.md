@@ -1110,3 +1110,13 @@ Task A 的定题、校准、人工审查、正式串行与配平并行数据、�
   slope CoT(20)=0.833 高于 0.75 上界（screen 0.52，合并 38/55=0.691 仅作方差描述），DA(1)=1.00 高于描述上界 0.95。
 - 结论：cursor 分支 DA 断崖问题已解决（d=2 由 8% 变为 86.7%）。是否接受 `word_int2_carry` 或升档到
   `word_int3_carry` / `word_dec1_carry` 交由开发者人工审查，详见 `Experiments/task_a_math_word/task_a_word_review.md`。
+
+## 5. 预注册对比 `word_int3_carry` vs `word_int2_carry`（2026-11-26 登记，尚未运行）
+
+- 动机：`word_int2_carry` slope `CoT(20)=0.833` 超出 `[0.40, 0.75]`；开发者选择试升一档，但担心 DA 过低。
+- 离线证据：int2 的 DA 错误中，d=2 的 3/3、d=3 的 11/19 恰差 10 的整数倍（进退位漏算）；CoT 错误 9/12 为步数错。
+  因此预计升档主要压 DA，对 CoT(20) 作用有限——这是本对比要检验的问题，不是结论。
+- 规则在看到 int3 结果之前写定（`COMPARE_RULE`，digest `1626304fed56134b6c0be06e5e04cabdd384d83c87100585454318f9ddc8388e`）：
+  probe `DA(1) ≥ 0.85`、slope `DA(2) ≥ 0.50`、slope `CoT(20) ∈ [0.40, 0.75]` 同时满足才改选 int3，否则保留 int2；
+  不上探 dec1/dec2，不增样本，不改阈值。规则不考察 gap/CA，但结果中照常报告。
+- 不改提示词、`continue_final_message` 预填、采样参数与模型；仅换题目配置。

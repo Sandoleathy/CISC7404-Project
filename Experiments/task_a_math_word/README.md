@@ -43,10 +43,22 @@
 ## 3. Colab 运行与交付流程
 
 1. 在 Colab 从 `taskA-gemini` 分支打开 `experiment_task_a_word.ipynb`，选择 **L4 GPU**（推荐，`bfloat16`）或 **T4 GPU**（自动回退 `float16`）。
-2. 点击 **「全部运行」**（默认 `RUN_STAGE = "search"`）：
+2. 点击 **「全部运行」**（首轮用 `RUN_STAGE = "search"`；**当前默认 `RUN_STAGE = "compare"`**，见下方「预注册对比」）：
    - 自动执行双向搜索（`probe`: `d=1 × 100 × DA`；`screen`: `d=20 × 25 × CoT`）并选定最优候选；
    - 自动在独立 `slope` 划分上运行 **`d ∈ {1, 2, 3, 5, 10, 15, 20}` × 30 题 × (DA, CoT) = 420 次推理**；
    - 生成曲线图 `task_a_word_calibration.png`、汇总表 `task_a_word_summary.json`，并自动下载 `task_a_word_results.zip`。
 3. **人工审查后生成正式 3000 题**：
    - 将下载的 `task_a_word_results.zip` 解压回本目录，**人工核查曲线与原文错误样本**；
    - 按 Notebook 第 9 节模板填写 `task_a_word_human_review.json`（`approved: true` 并填入 `evidence_digest`），将 `GENERATE_FINAL` 设为 `True`（可在本地 CPU 下 `RUN_STAGE="offline"` 直接运行），即可生成并全量校验 `Experiments/data_generation/synthesis_math_word_dataset.jsonl`（串行 `d=1..20 × 100 = 2000` 条 + 并行 `w=1..10 × 100 = 1000` 条，`W = 2w - 1`）。
+
+## 预注册对比：`word_int3_carry` vs `word_int2_carry`（2026-11-26 登记，运行前写定）
+
+- 背景：首轮 `search` 中 `word_int2_carry` 的 slope `CoT(20)=25/30=0.833` 高于 `0.75`，`DA(1)=100/100` 高于描述上界 `0.95`（见 `task_a_word_review.md`）。
+- `RUN_STAGE = "compare"` 只测 `word_int3_carry`：probe `d=1×100×DA` + 独立 slope `7 深度×30×(DA, CoT)` = 520 条推理。
+- 判定规则（`COMPARE_RULE`，digest `1626304fed56134b6c0be06e5e04cabdd384d83c87100585454318f9ddc8388e`，运行时校验）：
+  - probe `DA(1) ≥ 0.85`（≥ 85/100），且
+  - slope `DA(2) ≥ 0.50`（≥ 15/30），且
+  - slope `CoT(20) ∈ [0.40, 0.75]`（12/30..22/30）。
+  - 三条同时满足才改选 `word_int3_carry`；否则保留 `word_int2_carry`，不再上探 `dec1/dec2`、不增样本、不改阈值。
+- 输出：`task_a_word_compare_word_int3_carry.json`、`task_a_word_calibration_word_int3_carry.png`（不覆盖首轮 `task_a_word_summary.json`）。
+- 无论哪一档胜出，正式 3000 题仍须开发者人工审查后写入 `task_a_word_human_review.json` 才能生成。
