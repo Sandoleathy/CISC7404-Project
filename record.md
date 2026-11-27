@@ -1130,3 +1130,12 @@ Task A 的定题、校准、人工审查、正式串行与配平并行数据、�
   - **预注册判定**：`DA(1)=1.00 ≥ 0.85`、`DA(2)=0.633 ≥ 0.50`、`CoT(20)=0.667 ∈ [0.40, 0.75]` **三条全部通过** → 预注册规则选定 `word_int3_carry`（唯一硬目标 `CoT(20)` 无需例外即正面达标；`DA(1)=100%` 仍高于描述性上界 `0.95`）。
   - **错误与泄漏核查**：CoT 12 条错误中 11 条为 `step_count_mismatch`、1 条为 `arithmetic_or_sign_error`，零截断；DA 在 `d=20` 有 `43.3%` 试图在 `#### ` 后偷写算式/多行步骤，均被 `strict_da_ok` 准确判为不合规（详见 `task_a_word_review.md`）。
   - 当前状态：Notebook 默认已切回 `RUN_STAGE="offline"`，待开发者人工审查拍板后生成正式 3000 题。
+
+## 6. 开发者人工批准与正式 3,000 题交付（2026-11-27）
+
+- 开发者审阅 `task_a_word_review.md` 与 `word_int3_carry` 校准曲线后回复「批准 `word_int3_carry`」，审查记录写入 `Experiments/task_a_math_word/task_a_word_human_review.json`（绑定 `evidence_digest`: `d5b7195dc6a9e6f8678c9a713d40317b23f61e3da664dea83832e5a75075ca67`）。
+- 已在本地 CPU 生成并全量校验正式数据集：
+  - `Experiments/data_generation/synthesis_math_word_dataset.jsonl`（3,000 条：串行 `d=1..20 × 100 = 2000` 条 + `W=2w-1` 配平并行 `w=1..10 × 100 = 1000` 条，SHA256 `daca8723447c4206bd23823ee22813bc548d7ba04af72358aeeb41f09151be6d`）；
+  - `Experiments/data_generation/synthesis_math_word_dataset.manifest.json` 与 `synthesis_math_word_dataset.README.md`；
+  - `Experiments/task_a_math_word/task_a_word_final_validation.json`（独立英文解析器 3000/3000 复算通过、`datasets` 回读一致、二次确定性重建一致、与全部 1,065 条校准题及 few-shot 示例零重叠）。
+- 至此 `taskA-gemini` 分支的 Task A（自然语言数学加减应用题定题与正式数据交付）全部完成；正式全矩阵推理、Task B 约束筛选与合并复核留待后续阶段执行。

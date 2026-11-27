@@ -1,4 +1,4 @@
-# Task A `math_word_v1` 真实校准与预注册对比审查报告（2026-11-27，待开发者人工审查）
+# Task A `math_word_v1` 真实校准与预注册对比审查报告（2026-11-27，已获开发者人工批准并交付正式 3000 题）
 
 > 本报告由助手离线复核生成，**不是人工批准**。按 `task.md` A.0，正式 3000 题须开发者人工审查后
 > 写入 `task_a_word_human_review.json` 并开启 `GENERATE_FINAL = True` 才能生成。
@@ -72,7 +72,10 @@
 
 ---
 
-## 6. 待开发者人工审查确认
+## 6. 人工审查结论与正式 3,000 题交付记录（2026-11-27）
 
-- 按预注册规则，`word_int3_carry` 同时满足 `DA(1)=100% ≥ 0.85`、`DA(2)=63.3% ≥ 0.50`、且唯一硬目标 **`CoT(20)=66.7% ∈ [0.40, 0.75]`**，同时保留了 `d=1 → 2 → 3 → 5`（`100% → 63.3% → 16.7% → 0%`）的低深度平滑衰减曲线。
-- 请开发者审阅上述曲线（`task_a_word_calibration_word_int3_carry.png`）与原文记录。如确认接受 `word_int3_carry`，只需回复「批准 `word_int3_carry`」，即可写入 `task_a_word_human_review.json` 并在本地 CPU 生成、全量校验并提交正式 3000 题（`Experiments/data_generation/synthesis_math_word_dataset.jsonl`）。
+- **人工批准**：2026-11-27 开发者回复「批准 `word_int3_carry`」，审查结论已持久化至 `task_a_word_human_review.json`（绑定 `evidence_digest`: `d5b7195dc6a9e6f8678c9a713d40317b23f61e3da664dea83832e5a75075ca67`）。
+- **正式数据集已生成并全量校验**：
+  - 数据文件：`Experiments/data_generation/synthesis_math_word_dataset.jsonl`（串行 `d=1..20×100=2000` 条 + 并行 `w=1..10×100=1000` 条，共 3,000 条，SHA256 `daca8723447c4206bd23823ee22813bc548d7ba04af72358aeeb41f09151be6d`）；
+  - 清单与说明：`synthesis_math_word_dataset.manifest.json`、`synthesis_math_word_dataset.README.md`；
+  - 验证报告：`task_a_word_final_validation.json`（3,000 题独立英文解析求解、`datasets` 回读、二次确定性重建、`W=2w-1` 配平、与全部 1,065 条校准记录及 few-shot 零重叠 100% 通过）。

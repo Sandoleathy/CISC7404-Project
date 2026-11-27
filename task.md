@@ -24,8 +24,10 @@
 > 审核见 `task_a_human_review.json`，验证见 `task_a_final_validation.json`，完整说明见 `task_a_lookup_review.md`。
 > 正式全矩阵推理、Task B 和合并复核属于后续任务，本轮没有执行。
 >
-> 2026-11-26（`taskA-gemini` 分支更新）：**回归自然语言数学加减法应用题（`math_word_v1`），统一采用 `Qwen/Qwen3-4B`**。
-> 入口：`Experiments/task_a_math_word/experiment_task_a_word.ipynb`。针对 `cursor` 分支条件分支题 `DA` 正确率偏低问题，去除单步 `if/else` 阈值判断与干扰句负荷，采用纯自然语言串行加减法 + 5 档同构难度阶梯 + 对称 2-shot + `DA` 续写 `"#### "` 预填（`enable_thinking=False`）。待在 Colab GPU 完成真实校准与人工审查后再生成正式 3000 题。
+> 2026-11-27（`taskA-gemini` 分支更新）：**自然语言数学加减法应用题（`math_word_v1` / `word_int3_carry`）已完成真实校准、预注册对比与人工批准，正式 3000 题已交付**。
+> 入口：`Experiments/task_a_math_word/experiment_task_a_word.ipynb`（`Qwen/Qwen3-4B` commit `1cfa9a7208912126459214e8b04321603b3df60c`，`enable_thinking=False`）。
+> 实测 `word_int3_carry`：`DA(1)=100%`、`DA(2)=63.3%`、`DA(3)=16.7%`、`DA(20)=0%`、**`CoT(20)=66.7%`（命中 `[0.40, 0.75]` 硬目标）**、`gap(20)−gap(1)=+0.67`、CA `CoT p=3.04e-9`。
+> 开发者回复「批准 word_int3_carry」（`task_a_word_human_review.json`），已生成并全量验证正式 3000 题：`Experiments/data_generation/synthesis_math_word_dataset.jsonl`（串行 2000 + `W=2w−1` 并行 1000，SHA256 `daca8723447c4206bd23823ee22813bc548d7ba04af72358aeeb41f09151be6d`，验证见 `task_a_word_final_validation.json`）。正式全矩阵推理、Task B 与合并复核属于后续步骤。
 
 ### p1 定义
 单步正确率：串行任务里，模型在 d=1 题（一次加法 / 一次寄存器更新 / 一次指针转移）上的答案正确率；
@@ -94,6 +96,8 @@
 |---|---|
 | `Experiments/data_generation/synthesis_pointer_numeric_dataset.jsonl` | 已交付3000条正式数据；同名 `.manifest.json` 记录来源、审核及SHA256 |
 | `calib_v3_task.jsonl` | p1 探针 + 斜率验证结果 |
+| `Experiments/data_generation/synthesis_math_word_dataset.jsonl` | `taskA-gemini` 已交付 3000 条自然语言加减应用题正式数据（`word_int3_carry`）；同名 `.manifest.json` / `.README.md` 记录来源、审核及 SHA256 |
+| `Experiments/task_a_math_word/calib_v4_math_word.jsonl` | `Qwen/Qwen3-4B` 两轮真实校准原始记录（1065 条） |
 
 
 ---

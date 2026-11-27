@@ -1,5 +1,5 @@
 {
-  "exported_at_utc": "2026-11-27T11:07:22.153245+00:00",
+  "exported_at_utc": "2026-11-27T11:54:27.196454+00:00",
   "version": "math_word_v1",
   "prompt_version": "qwen3_4b_sym2shot_prefill_v1",
   "canonical_total_records": 1065,
@@ -56,6 +56,22 @@
       "relpath": "Experiments/task_a_math_word/task_a_word_calibration_word_int3_carry.png",
       "bytes": 104847,
       "sha256": "80c67f0dcdaaffd0610b67615faded12147f6a790309a6f245c47d881f2da7ec"
+    },
+    {
+      "relpath": "Experiments/task_a_math_word/task_a_word_human_review.json",
+      "bytes": 1180,
+      "sha256": "dc83934f8dda13100289344f1eb4436e6df0068819b77bf6c93ed9623b9ac4e9"
+    },
+    {
+      "relpath": "Experiments/task_a_math_word/task_a_word_final_validation.json",
+      "bytes": 1156,
+      "sha256": "89d601f4f3559074e3727773205847aaeaf772ad3aa5c9ced7d7ebe1278ac522"
     }
-  ]
+  ],
+  "formal_dataset": {
+    "relpath": "Experiments/data_generation/synthesis_math_word_dataset.jsonl",
+    "manifest_relpath": "Experiments/data_generation/synthesis_math_word_dataset.manifest.json",
+    "rows": 3000,
+    "sha256": "daca8723447c4206bd23823ee22813bc548d7ba04af72358aeeb41f09151be6d"
+  }
 }

@@ -106,7 +106,7 @@ jupyter server --ServerApp.allow_remote_access True   # 需要远程访问时
 | 档位 | 模型 | 本地目录 | 用途 | 状态 |
 |---|---|---|---|---|
 | A | Qwen3-1.7B | `models/Qwen3-1.7B` | pilot、链路自测、回归 | 已下载，已跑通 |
-| B (`taskA-gemini`) | `Qwen/Qwen3-4B` | `models/Qwen3-4B` | 自然语言数学加减应用题校准与主实验（与 GSM8K / IFEval 线统一） | 待 Colab 校准 |
+| B (`taskA-gemini`) | `Qwen/Qwen3-4B` | `models/Qwen3-4B` | 自然语言数学加减应用题校准与主实验（与 GSM8K / IFEval 线统一） | 已完成 Colab L4 校准并人工定题交付 |
 
 - **`taskA-gemini` 分支模型约定**：按最新实验要求统一使用 **`Qwen/Qwen3-4B`**（2025-04 混合推理模型，**不是** `Qwen/Qwen3-4B-Base`，也**不是** `Qwen/Qwen3-4B-Instruct-2507`）。
 - 由于 `Qwen/Qwen3-4B` 的 chat template 带有 `<think>` 分支，为了遵守「DA / CoT 纯粹由提示词控制」，在 `task_a_math_word` 中对 `DA` 与 `CoT` 统一显式设置 `enable_thinking=False`（闭合空 `<think>\n\n</think>\n\n`），其中 `DA` 采用 `continue_final_message=True` 续写 `"#### "` 预填防止泄漏。（旧版 `Experiments/task_a/` 的历史归档仍对应 `Qwen/Qwen3-4B-Instruct-2507`，保留不改以供复核。）
@@ -287,7 +287,7 @@ vLLM 0.33.0 的本次 Colab 运行中该字段为空，但模型本身已经加�
   `q` 才是模型题干，不能把 `trace` / `answers` / `ans` 等gold元数据传给模型。
   正式全矩阵推理、Task B 与合并复核未执行。
 
-### 5.6 Task A（`taskA-gemini`）：回归自然语言数学加减法应用题（`math_word_v1`，两轮校准与预注册对比完成，待人工审查）
+### 5.6 Task A（`taskA-gemini`）：自然语言数学加减法应用题已人工定题，正式 3000 题已交付（`math_word_v1` / `word_int3_carry`）
 
 - 入口：`Experiments/task_a_math_word/experiment_task_a_word.ipynb`（说明见同目录 `README.md`）。
 - 针对历史指针题 `DA` 在 `d≥5` 归零、以及 `cursor` 分支条件分支题 `DA` 正确率过低（`0.70 / 0.08 / 0.03`）的问题，回归**纯粹自然语言串行加减法应用题**（日常计数、一位小数计量、两位小数金额）：每一步仅一个无歧义增减事件、仅含 1 个变化量数字，无 `if/else` 阈值分支、无无关干扰句、无乘除取模、无 `min/max` 聚合。
@@ -295,7 +295,9 @@ vLLM 0.33.0 的本次 Colab 运行中该字段为空，但模型本身已经加�
 - 内置 5 档同构难度阶梯（`word_int1_easy` → `word_int2_carry` → `word_int3_carry` → `word_dec1_carry` → `word_dec2_money`），`RUN_STAGE="search"` 支持双向自动搜索并在独立 `slope` 划分上测 `d ∈ {1, 2, 3, 5, 10, 15, 20} × 30 × (DA, CoT)`。
 - 2026-11-26 首轮 Colab L4 真实校准（545 条，`calib_v4_math_word.jsonl`，审查见 `task_a_word_review.md`）：`word_int2_carry` DA(1)=100%、DA 在 d=2/3/5 为 86.7/33.3/3.3%，CoT(20) slope 83.3%（screen 52%），gap 增长 +0.83，CA p=4.2e-6；CoT(20) 是否可接受由开发者裁决。L4 上用 bf16 / 0.85 / max_num_seqs=32，采样不变。
 - 2026-11-27 预注册对比 `RUN_STAGE="compare"` 完成（520 条合入 `calib_v4_math_word.jsonl` 共 1065 条，汇总见 `task_a_word_compare_word_int3_carry.json`）：`word_int3_carry` 实测 `DA(1)=100%`、slope `DA(2)=63.3%`（`d=3` 为 `16.7%`）、slope **`CoT(20)=66.7%`（20/30，命中 `[0.40,0.75]` 硬目标）**、`gap(20)-gap(1)=+0.67`、CA `CoT p=3.04e-9`，预注册三项条件全部通过并推荐 `word_int3_carry`；notebook 默认已切回 `RUN_STAGE="offline"`。
-- 正式 3000 题（`Experiments/data_generation/synthesis_math_word_dataset.jsonl`）默认关闭生成，须在 Colab 完成 `Qwen/Qwen3-4B` 真实校准并经开发者人工审查写入 `task_a_word_human_review.json` 后开启。
+- 2026-11-27 开发者回复「批准 `word_int3_carry`」（`task_a_word_human_review.json`），已生成并全量校验正式 3,000 题：
+  `Experiments/data_generation/synthesis_math_word_dataset.jsonl`（2000 串行 `d=1..20×100` + 1000 并行 `w=1..10×100`，`W=2w-1`，SHA256 `daca8723447c4206bd23823ee22813bc548d7ba04af72358aeeb41f09151be6d`）、同名 `.manifest.json` 与 `.README.md`，全量校验报告见 `task_a_word_final_validation.json`（与全部 1065 条校准记录及 few-shot 零重叠）。
+  `GENERATE_FINAL=False` 默认保持关闭以免重复生成；传给模型的题干仅限 `q` 字段，正式实验 DA 须沿用 `strict_da_ok`。正式全矩阵推理、Task B 与合并复核尚未执行。
 
 ## 6. 待办与未定项
 

@@ -1,0 +1,42 @@
+{
+  "dataset_path": "Experiments/data_generation/synthesis_math_word_dataset.jsonl",
+  "sha256": "daca8723447c4206bd23823ee22813bc548d7ba04af72358aeeb41f09151be6d",
+  "version": "math_word_v1",
+  "prompt_version": "qwen3_4b_sym2shot_prefill_v1",
+  "seed": 7404,
+  "selected_candidate": "word_int3_carry",
+  "config": {
+    "name": "word_int3_carry",
+    "domain": "count",
+    "decimals": 0,
+    "start_min": 140,
+    "start_max": 460,
+    "val_min": 40,
+    "val_max": 960,
+    "delta_min": 36,
+    "delta_max": 189,
+    "require_carry": true,
+    "family": "math_word"
+  },
+  "counts": {
+    "serial": 2000,
+    "parallel": 1000,
+    "total": 3000
+  },
+  "calibration_model": "Qwen/Qwen3-4B",
+  "calibration_model_commit": "1cfa9a7208912126459214e8b04321603b3df60c",
+  "evidence_digest": "d5b7195dc6a9e6f8678c9a713d40317b23f61e3da664dea83832e5a75075ca67",
+  "calibration_records_checked": 1065,
+  "human_review": {
+    "approved": true,
+    "reviewer": "Ziwei Wang（项目开发者本对话人工审查）",
+    "reviewed_at": "2026-11-27",
+    "approval_text": "批准 word_int3_carry",
+    "approval_context": "开发者审阅两轮真实校准与预注册对比结果（word_int3_carry vs word_int2_carry，共 1065 条 Qwen/Qwen3-4B 记录）及审查报告后，回复「批准 word_int3_carry」。",
+    "selected_candidate": "word_int3_carry",
+    "evidence_digest": "d5b7195dc6a9e6f8678c9a713d40317b23f61e3da664dea83832e5a75075ca67",
+    "review_report_commit": "219ffc2",
+    "notes": "批准 word_int3_carry 生成正式 3000 题（2000 串行 + 1000 W 配平并行）。预注册三项条件（DA(1)=100% ≥ 0.85、DA(2)=63.3% ≥ 0.50、CoT(20)=66.7% ∈ [0.40, 0.75]）与 task.md A.0 唯一硬目标 CoT(20)、DA(20)=0%、gap 增长 +0.67、CA 趋势 CoT p=3.04e-9 全部正面达标；接受单步 DA(1)=100% 高于描述性上界 0.95（d=2 为 63.3%、d=3 为 16.7%），正式实验继续采用严格单行口径 strict_da_ok 拦截高深度 DA 算式泄漏，并注意并行多答案读出成本混杂。此批准仅针对定题生成，不代表正式全矩阵已完成模型推理。"
+  },
+  "generated_at_utc": "2026-11-27T11:52:52.280522+00:00"
+}
