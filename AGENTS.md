@@ -287,14 +287,14 @@ vLLM 0.33.0 的本次 Colab 运行中该字段为空，但模型本身已经加�
   `q` 才是模型题干，不能把 `trace` / `answers` / `ans` 等gold元数据传给模型。
   正式全矩阵推理、Task B 与合并复核未执行。
 
-### 5.6 Task A（`taskA-gemini`）：回归自然语言数学加减法应用题（`math_word_v1`，首轮真实校准完成，待人工审查）
+### 5.6 Task A（`taskA-gemini`）：回归自然语言数学加减法应用题（`math_word_v1`，两轮校准与预注册对比完成，待人工审查）
 
 - 入口：`Experiments/task_a_math_word/experiment_task_a_word.ipynb`（说明见同目录 `README.md`）。
 - 针对历史指针题 `DA` 在 `d≥5` 归零、以及 `cursor` 分支条件分支题 `DA` 正确率过低（`0.70 / 0.08 / 0.03`）的问题，回归**纯粹自然语言串行加减法应用题**（日常计数、一位小数计量、两位小数金额）：每一步仅一个无歧义增减事件、仅含 1 个变化量数字，无 `if/else` 阈值分支、无无关干扰句、无乘除取模、无 `min/max` 聚合。
 - 模型统一采用 **`Qwen/Qwen3-4B`**（非 Base、非 Instruct-2507），显式设 `enable_thinking=False`；`DA` 与 `CoT` 共享独立 `fewshot` 划分的对称 2-shot 示例，`DA` 用 `continue_final_message=True` 续写 `"#### "` 预填防止泄漏，以严格单行正确率 `strict_da_ok` 为主指标。
 - 内置 5 档同构难度阶梯（`word_int1_easy` → `word_int2_carry` → `word_int3_carry` → `word_dec1_carry` → `word_dec2_money`），`RUN_STAGE="search"` 支持双向自动搜索并在独立 `slope` 划分上测 `d ∈ {1, 2, 3, 5, 10, 15, 20} × 30 × (DA, CoT)`。
 - 2026-11-26 首轮 Colab L4 真实校准（545 条，`calib_v4_math_word.jsonl`，审查见 `task_a_word_review.md`）：`word_int2_carry` DA(1)=100%、DA 在 d=2/3/5 为 86.7/33.3/3.3%，CoT(20) slope 83.3%（screen 52%），gap 增长 +0.83，CA p=4.2e-6；CoT(20) 是否可接受由开发者裁决。L4 上用 bf16 / 0.85 / max_num_seqs=32，采样不变。
-- 2026-11-26 预注册对比 `RUN_STAGE="compare"`（notebook 当前默认）：只测 `word_int3_carry`（probe 100 + slope 420）；DA(1)≥0.85 且 DA(2)≥0.50 且 CoT(20)∈[0.40,0.75] 同时满足才改选，否则保留 `word_int2_carry`。`COMPARE_RULE` 有 digest 校验，**不得在看到结果后修改**；结果写独立 `task_a_word_compare_*.json`。
+- 2026-11-27 预注册对比 `RUN_STAGE="compare"` 完成（520 条合入 `calib_v4_math_word.jsonl` 共 1065 条，汇总见 `task_a_word_compare_word_int3_carry.json`）：`word_int3_carry` 实测 `DA(1)=100%`、slope `DA(2)=63.3%`（`d=3` 为 `16.7%`）、slope **`CoT(20)=66.7%`（20/30，命中 `[0.40,0.75]` 硬目标）**、`gap(20)-gap(1)=+0.67`、CA `CoT p=3.04e-9`，预注册三项条件全部通过并推荐 `word_int3_carry`；notebook 默认已切回 `RUN_STAGE="offline"`。
 - 正式 3000 题（`Experiments/data_generation/synthesis_math_word_dataset.jsonl`）默认关闭生成，须在 Colab 完成 `Qwen/Qwen3-4B` 真实校准并经开发者人工审查写入 `task_a_word_human_review.json` 后开启。
 
 ## 6. 待办与未定项

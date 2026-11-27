@@ -51,7 +51,7 @@
    - 将下载的 `task_a_word_results.zip` 解压回本目录，**人工核查曲线与原文错误样本**；
    - 按 Notebook 第 9 节模板填写 `task_a_word_human_review.json`（`approved: true` 并填入 `evidence_digest`），将 `GENERATE_FINAL` 设为 `True`（可在本地 CPU 下 `RUN_STAGE="offline"` 直接运行），即可生成并全量校验 `Experiments/data_generation/synthesis_math_word_dataset.jsonl`（串行 `d=1..20 × 100 = 2000` 条 + 并行 `w=1..10 × 100 = 1000` 条，`W = 2w - 1`）。
 
-## 预注册对比：`word_int3_carry` vs `word_int2_carry`（2026-11-26 登记，运行前写定）
+## 预注册对比：`word_int3_carry` vs `word_int2_carry`（2026-11-27 已完成，`word_int3_carry` 胜出，待人工审查）
 
 - 背景：首轮 `search` 中 `word_int2_carry` 的 slope `CoT(20)=25/30=0.833` 高于 `0.75`，`DA(1)=100/100` 高于描述上界 `0.95`（见 `task_a_word_review.md`）。
 - `RUN_STAGE = "compare"` 只测 `word_int3_carry`：probe `d=1×100×DA` + 独立 slope `7 深度×30×(DA, CoT)` = 520 条推理。
@@ -62,3 +62,10 @@
   - 三条同时满足才改选 `word_int3_carry`；否则保留 `word_int2_carry`，不再上探 `dec1/dec2`、不增样本、不改阈值。
 - 输出：`task_a_word_compare_word_int3_carry.json`、`task_a_word_calibration_word_int3_carry.png`（不覆盖首轮 `task_a_word_summary.json`）。
 - 无论哪一档胜出，正式 3000 题仍须开发者人工审查后写入 `task_a_word_human_review.json` 才能生成。
+
+- **实测结果（Colab L4，`Qwen/Qwen3-4B` commit `1cfa9a7208912126459214e8b04321603b3df60c`，520 条）**：
+  - probe `DA(1) = 100/100 (100.0%) ≥ 0.85` ✅
+  - slope `DA(2) = 19/30 (63.3%) ≥ 0.50`（`d=3` 为 `16.7%`，低深度平滑衰减）✅
+  - slope `CoT(20) = 20/30 (66.7%) ∈ [0.40, 0.75]`（正面命中 `task.md` A.0 唯一硬目标）✅
+  - `gap(20) - gap(1) = +0.6667`（95% CI `[0.500, 0.833]`），CA 趋势 `CoT p = 3.04e-09`、`DA p = 2.38e-16`。
+  - 三条预注册条件全部满足，自动推荐 `word_int3_carry`；当前 Notebook 默认已切回安全离线模式 `RUN_STAGE = "offline"`，等待开发者人工审查确认后生成正式 3000 题。

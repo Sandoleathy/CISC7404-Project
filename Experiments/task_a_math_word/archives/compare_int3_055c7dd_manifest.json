@@ -1,0 +1,23 @@
+{
+  "exported_at_utc": "2026-11-26T21:28:15.069826+00:00",
+  "run_stage": "compare",
+  "version": "math_word_v1",
+  "prompt_version": "qwen3_4b_sym2shot_prefill_v1",
+  "files": [
+    {
+      "relpath": "Experiments/task_a_math_word/calib_v4_math_word.jsonl",
+      "bytes": 2782029,
+      "sha256": "9b57e2e784a3d65658ab879e8cf9ddaff29b39c7d64b71e2ada594a692452233"
+    },
+    {
+      "relpath": "Experiments/task_a_math_word/task_a_word_compare_word_int3_carry.json",
+      "bytes": 12177,
+      "sha256": "dc66c5c7b188e5ba214e586758600bbba98ea7bd74dd2b7673120303dde63f23"
+    },
+    {
+      "relpath": "Experiments/task_a_math_word/task_a_word_calibration_word_int3_carry.png",
+      "bytes": 104847,
+      "sha256": "80c67f0dcdaaffd0610b67615faded12147f6a790309a6f245c47d881f2da7ec"
+    }
+  ]
+}
