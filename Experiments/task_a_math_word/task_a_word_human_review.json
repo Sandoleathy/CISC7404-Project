@@ -1,0 +1,11 @@
+{
+  "approved": true,
+  "reviewer": "Ziwei Wang（项目开发者本对话人工审查）",
+  "reviewed_at": "2026-11-27",
+  "approval_text": "批准 word_int3_carry",
+  "approval_context": "开发者审阅两轮真实校准与预注册对比结果（word_int3_carry vs word_int2_carry，共 1065 条 Qwen/Qwen3-4B 记录）及审查报告后，回复「批准 word_int3_carry」。",
+  "selected_candidate": "word_int3_carry",
+  "evidence_digest": "d5b7195dc6a9e6f8678c9a713d40317b23f61e3da664dea83832e5a75075ca67",
+  "review_report_commit": "219ffc2",
+  "notes": "批准 word_int3_carry 生成正式 3000 题（2000 串行 + 1000 W 配平并行）。预注册三项条件（DA(1)=100% ≥ 0.85、DA(2)=63.3% ≥ 0.50、CoT(20)=66.7% ∈ [0.40, 0.75]）与 task.md A.0 唯一硬目标 CoT(20)、DA(20)=0%、gap 增长 +0.67、CA 趋势 CoT p=3.04e-9 全部正面达标；接受单步 DA(1)=100% 高于描述性上界 0.95（d=2 为 63.3%、d=3 为 16.7%），正式实验继续采用严格单行口径 strict_da_ok 拦截高深度 DA 算式泄漏，并注意并行多答案读出成本混杂。此批准仅针对定题生成，不代表正式全矩阵已完成模型推理。"
+}

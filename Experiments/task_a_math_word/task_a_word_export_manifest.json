@@ -1,0 +1,77 @@
+{
+  "exported_at_utc": "2026-11-27T11:54:27.196454+00:00",
+  "version": "math_word_v1",
+  "prompt_version": "qwen3_4b_sym2shot_prefill_v1",
+  "canonical_total_records": 1065,
+  "runs_merged": [
+    {
+      "run": "search_word_int2_carry",
+      "colab_commit": "919be1c197c12800f5a4a333144dc7e23680acea",
+      "records": 545,
+      "line_slice": "1..545",
+      "jsonl_sha256": "d9e47dd21d52447ab568fad25927f20bc3376e13cc65ad509b8515f292af3d23",
+      "zip_sha256": "90bd569a268dbf2adc047ab9ae0cda601a17cae1f2886b4aebc7c67d8bdbaade"
+    },
+    {
+      "run": "compare_word_int3_carry",
+      "colab_commit": "055c7dd",
+      "records": 520,
+      "line_slice": "546..1065",
+      "jsonl_sha256": "9b57e2e784a3d65658ab879e8cf9ddaff29b39c7d64b71e2ada594a692452233",
+      "zip_sha256": "deb2fc73dc47d7cca95572d02aec8fa9002c3d98855b7602e408cf26cc5ff2af"
+    }
+  ],
+  "files": [
+    {
+      "relpath": "Experiments/task_a_math_word/calib_v4_math_word.jsonl",
+      "bytes": 5774225,
+      "sha256": "1996b4a2583bd5d62f1251549fd1ccd80ee60de26aa7ba3f50395409db119301"
+    },
+    {
+      "relpath": "Experiments/task_a_math_word/task_a_word_probe_summary.json",
+      "bytes": 439,
+      "sha256": "5b78aa7a3b70e491f5b202dd93e719ac893f8d9568b09c080a67b40b7e79cdbd"
+    },
+    {
+      "relpath": "Experiments/task_a_math_word/task_a_word_search_summary.json",
+      "bytes": 10754,
+      "sha256": "62f99bb29dd29dabfc6d33d2f42c68a0bc7abae9fa1f11e2ec00269ce3054710"
+    },
+    {
+      "relpath": "Experiments/task_a_math_word/task_a_word_summary.json",
+      "bytes": 8732,
+      "sha256": "37cc8c0aec8d17acd1d4439d84913e9577bafc2d3efd0f7dbc8a6a0925091827"
+    },
+    {
+      "relpath": "Experiments/task_a_math_word/task_a_word_calibration.png",
+      "bytes": 103873,
+      "sha256": "4e9794e29bf7718a399a87ed8ef72baaf8ce02e96d938731efca397aa48dd2de"
+    },
+    {
+      "relpath": "Experiments/task_a_math_word/task_a_word_compare_word_int3_carry.json",
+      "bytes": 12177,
+      "sha256": "dc66c5c7b188e5ba214e586758600bbba98ea7bd74dd2b7673120303dde63f23"
+    },
+    {
+      "relpath": "Experiments/task_a_math_word/task_a_word_calibration_word_int3_carry.png",
+      "bytes": 104847,
+      "sha256": "80c67f0dcdaaffd0610b67615faded12147f6a790309a6f245c47d881f2da7ec"
+    },
+    {
+      "relpath": "Experiments/task_a_math_word/task_a_word_human_review.json",
+      "bytes": 1180,
+      "sha256": "dc83934f8dda13100289344f1eb4436e6df0068819b77bf6c93ed9623b9ac4e9"
+    },
+    {
+      "relpath": "Experiments/task_a_math_word/task_a_word_final_validation.json",
+      "bytes": 1156,
+      "sha256": "89d601f4f3559074e3727773205847aaeaf772ad3aa5c9ced7d7ebe1278ac522"
+    }
+  ],
+  "formal_dataset": {
+    "relpath": "Experiments/data_generation/synthesis_math_word_dataset.jsonl",
+    "manifest_relpath": "Experiments/data_generation/synthesis_math_word_dataset.manifest.json",
+    "rows": 3000,
+    "sha256": "daca8723447c4206bd23823ee22813bc548d7ba04af72358aeeb41f09151be6d"
+  }
+}

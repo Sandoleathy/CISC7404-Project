@@ -1,0 +1,33 @@
+{
+  "exported_at_utc": "2026-11-26T15:39:36.854108+00:00",
+  "run_stage": "search",
+  "version": "math_word_v1",
+  "prompt_version": "qwen3_4b_sym2shot_prefill_v1",
+  "files": [
+    {
+      "relpath": "Experiments/task_a_math_word/calib_v4_math_word.jsonl",
+      "bytes": 2992196,
+      "sha256": "d9e47dd21d52447ab568fad25927f20bc3376e13cc65ad509b8515f292af3d23"
+    },
+    {
+      "relpath": "Experiments/task_a_math_word/task_a_word_probe_summary.json",
+      "bytes": 439,
+      "sha256": "5b78aa7a3b70e491f5b202dd93e719ac893f8d9568b09c080a67b40b7e79cdbd"
+    },
+    {
+      "relpath": "Experiments/task_a_math_word/task_a_word_search_summary.json",
+      "bytes": 10754,
+      "sha256": "62f99bb29dd29dabfc6d33d2f42c68a0bc7abae9fa1f11e2ec00269ce3054710"
+    },
+    {
+      "relpath": "Experiments/task_a_math_word/task_a_word_summary.json",
+      "bytes": 8732,
+      "sha256": "37cc8c0aec8d17acd1d4439d84913e9577bafc2d3efd0f7dbc8a6a0925091827"
+    },
+    {
+      "relpath": "Experiments/task_a_math_word/task_a_word_calibration.png",
+      "bytes": 103873,
+      "sha256": "4e9794e29bf7718a399a87ed8ef72baaf8ce02e96d938731efca397aa48dd2de"
+    }
+  ]
+}
